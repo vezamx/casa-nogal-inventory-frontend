@@ -1,0 +1,10 @@
+{
+    "name": "Casa Nogal",
+    "short_name": "Casa Nogal",
+    "theme_color": "#545a29",
+    "background_color": "#efe0cc",
+    "display": "browser",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/"
+}
