@@ -9,7 +9,7 @@ const btnSizes = {
 }
 
 type sizeType = keyof typeof btnSizes
-type btntype = 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
+type btntype = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'yellow'
 
 interface props extends ButtonHTMLAttributes<HTMLButtonElement>{
   text: string;
@@ -23,7 +23,8 @@ const btnProps = {
   secondary:  'bg-buttons-secondary',
   success:    'bg-buttons-success',
   warning:    'bg-buttons-warning',
-  danger:     'bg-buttons-danger'
+  danger:     'bg-buttons-danger',
+  yellow:      'bg-buttons-yellow'
 }
 
 export const CustomButtom: FC<props> = ({
@@ -44,7 +45,7 @@ export const CustomButtom: FC<props> = ({
         ${isLoading ? 'flex' : ''}
       `}{...buttonProps}
     >
-    //   {isLoading ? true : false}Loading...
+    {/* //   {isLoading ? true : false}Loading... */}
     </button>
   )
 }
