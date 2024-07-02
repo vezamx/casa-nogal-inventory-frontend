@@ -1,18 +1,17 @@
+import MenuButton from "../menuButton/MenuButton";
 
-const MenuBar = () => {
+const MenuBar = ({menuButton = false}) => {
   return (
     <>
-    <div className="h-12 max-w-full bg-gray-500">
-        {/* <button>
-          <Image
-            className="ml-2 *flex items-start"
-            src="/hamburguerMenu.svg"
-            alt="clock"
-            width={50}
-            height={50}
-          />
-        </button> */}
-      </div>
+    {
+      menuButton
+        ? <div className='h-12 max-w-full bg-gray-500'>
+            <MenuButton
+            />
+          </div>
+        : <div className="h-12 max-w-full bg-gray-500"></div>
+    }
+    
     </>
   )
 }

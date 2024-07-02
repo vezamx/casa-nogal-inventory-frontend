@@ -15,6 +15,7 @@ const Logo = ({ className, width, height }: LogoProps) => {
         alt="Casa Nogal"
         width={width}
         height={height}
+        
       />
     </>
   )
