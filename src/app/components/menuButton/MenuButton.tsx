@@ -1,21 +1,46 @@
 "use client";
+import {
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  Text,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
 import Image from "next/image";
-import { useState } from "react";
+import { FaHome } from "react-icons/fa";
+
+interface MenuItemProps {
+  title: string;
+  icon: JSX.Element;
+  href: string;
+}
+const MenuItem: React.FC<MenuItemProps> = ({ title, icon, href }) => {
+  return (
+    <Button
+      as="a"
+      href={href}
+      w="100%"
+      variant="ghost"
+      justifyContent="left"
+      leftIcon={icon}
+    >
+      <Text ml={10}>{title}</Text>
+    </Button>
+  );
+};
 
 const MenuButton = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const closeDropdown = () => {
-    setIsOpen(false);
-  };
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <button onClick={toggleDropdown}>
+      <button onClick={onOpen}>
         <Image
           className="ml-2 *flex items-start"
           src="/hamburguerMenu.svg"
@@ -24,61 +49,44 @@ const MenuButton = () => {
           height={50}
         />
       </button>
-      {isOpen && (
-        <div className="origin-top-left right-0 mt-0 ml-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-          <ul
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="options-menu"
-          >
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={closeDropdown}
-              >
-                Inventario
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={closeDropdown}
-              >
-                Restaurante
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={closeDropdown}
-              >
-                Abrir/Cerrar turno
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={closeDropdown}
-              >
-                Corte de caja
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={closeDropdown}
-              >
-                Cerrar sistema
-              </a>
-            </li>
-          </ul>
-        </div>
-      )}
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader py={16} backgroundColor={"brand.yellow"}>
+            Menu Principal
+          </DrawerHeader>
+
+          <DrawerBody mt={5}>
+            <VStack gap={6}>
+              <MenuItem
+                title="Inicio"
+                icon={
+                  <FaHome
+                    style={{
+                      fontSize: "2.5em",
+                    }}
+                  />
+                }
+                href="/home"
+              />
+              <MenuItem
+                title="Pedidos"
+                icon={
+                  <FaHome
+                    style={{
+                      fontSize: "2.5em",
+                    }}
+                  />
+                }
+                href="/orders"
+              />
+            </VStack>
+          </DrawerBody>
+
+          <DrawerFooter></DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 };

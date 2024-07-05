@@ -1,19 +1,18 @@
 import MenuButton from "../menuButton/MenuButton";
 
-const MenuBar = ({menuButton = false}) => {
+const MenuBar = ({ menuButton = false }) => {
   return (
     <>
-    {
-      menuButton
-        ? <div className='h-12 max-w-full bg-gray-500'>
-            <MenuButton
-            />
-          </div>
-        : <div className="h-12 max-w-full bg-gray-500"></div>
-    }
-    
+      {menuButton ? (
+        <div className="h-12 max-w-full bg-customGray">
+          <MenuButton />
+        </div>
+      ) : (
+        <div className="h-12 max-w-full bg-customGray"></div>
+      )}
     </>
-  )
-}
+  );
+};
 
-export default MenuBar
+export default MenuBar;
+

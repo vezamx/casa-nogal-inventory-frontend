@@ -4,7 +4,7 @@ import { YellowLine } from "../yellowLine/YellowLine";
 const Clock = () => {
   return (
     <>
-      <div className="h-12 max-w-full bg-gray-500 mb-0">
+      <div className="h-12 max-w-full bg-customGray mb-0">
         <button>
           <Image
             className="ml-2 *flex items-start"
