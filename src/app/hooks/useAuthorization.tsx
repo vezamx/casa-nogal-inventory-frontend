@@ -18,6 +18,7 @@ export const useAuthorization = () => {
     error,
     data,
     mutate,
+    reset,
   } = useMutation({
     mutationFn: async (
       requestObj: UseAuthentitactionParams & { token: string },
@@ -35,7 +36,17 @@ export const useAuthorization = () => {
         },
       );
       const data = await response.json();
+      if (data.statusCode && data.statusCode > 400) {
+        throw new Error(data.message || "Error");
+      }
+
       return data;
+    },
+    onError: (error) => {
+      console.error("Error madafaker", error);
+    },
+    onSuccess: (data) => {
+      console.log("Data", data);
     },
   });
 
@@ -48,8 +59,10 @@ export const useAuthorization = () => {
 
   const { onOpen, onClose, isOpen } = context;
 
-  const callApiWithToken = ({ method, url }: UseAuthentitactionParams) => {
-    context && context.setRequestInfo({ method, url });
+  const callApiWithToken = ({ method, url, cb }: UseAuthentitactionParams) => {
+    context && context.setRequestInfo({ method, url, cb });
+
+    reset();
 
     onOpen && onOpen();
   };
@@ -63,6 +76,7 @@ export const useAuthorization = () => {
       method: context.requestInfo.method,
       url: context.requestInfo.url,
       token,
+      cb: context.requestInfo.cb,
     });
   };
 

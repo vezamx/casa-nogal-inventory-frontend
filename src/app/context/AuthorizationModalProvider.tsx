@@ -1,7 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
 import React, { createContext } from "react";
 import AuthorizationModal from "../components/AuthorizationModal";
-import { UseAuthentitactionParams } from "@/types/types";
+import { UseAuthenticationCb, UseAuthentitactionParams } from "@/types/types";
 
 type AuthorizationContextType = {
   isOpen: boolean;
@@ -9,6 +9,8 @@ type AuthorizationContextType = {
   onClose: () => void;
   requestInfo?: UseAuthentitactionParams;
   setRequestInfo: (requestInfo: UseAuthentitactionParams) => void;
+  requestCb?: UseAuthenticationCb;
+  setRequestCb?: (requestCb: UseAuthenticationCb) => void;
 };
 export const AuthorizationContext = createContext<
   AuthorizationContextType | undefined
@@ -21,6 +23,7 @@ export const AuthorizationModalProvider: React.FC<{
   const [requestInfo, setRequestInfo] = React.useState<
     UseAuthentitactionParams | undefined
   >();
+  const [requestCb, setRequestCb] = React.useState<UseAuthenticationCb>();
   return (
     <AuthorizationContext.Provider
       value={{
@@ -29,6 +32,8 @@ export const AuthorizationModalProvider: React.FC<{
         onClose,
         requestInfo,
         setRequestInfo,
+        setRequestCb,
+        requestCb,
       }}
     >
       {children}
