@@ -26,6 +26,11 @@ const Page = () => {
               callApiWithToken({
                 method: "GET",
                 url: "/roles",
+                options: {
+                  onError: (error) => {
+                    console.log("Este error es god", error);
+                  },
+                },
               });
             }}
           >

@@ -1,7 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
 import React, { createContext } from "react";
 import AuthorizationModal from "../components/AuthorizationModal";
-import { UseAuthentitactionParams } from "@/types/types";
+import { UseAuthenticationCb, UseAuthentitactionParams } from "@/types/types";
 
 type AuthorizationContextType = {
   isOpen: boolean;

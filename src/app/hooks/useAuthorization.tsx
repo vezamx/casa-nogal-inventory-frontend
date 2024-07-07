@@ -18,6 +18,7 @@ export const useAuthorization = () => {
     error,
     data,
     mutate,
+    reset,
   } = useMutation({
     mutationFn: async (
       requestObj: UseAuthentitactionParams & { token: string },
@@ -35,7 +36,33 @@ export const useAuthorization = () => {
         },
       );
       const data = await response.json();
+      if (data.statusCode && data.statusCode > 400) {
+        throw new Error(data.message || "Error");
+      }
+
       return data;
+    },
+    onError: (error) => {
+      if (!context.requestInfo) {
+        return;
+      }
+
+      if (!context.requestInfo.options) {
+        return;
+      }
+
+      context.requestInfo.options.onError &&
+        context.requestInfo.options.onError(error);
+    },
+    onSuccess: (data) => {
+      if (!context.requestInfo) {
+        return;
+      }
+      if (!context.requestInfo.options) {
+        return;
+      }
+      context.requestInfo.options.onSuccess &&
+        context.requestInfo.options.onSuccess(data);
     },
   });
 
@@ -48,8 +75,10 @@ export const useAuthorization = () => {
 
   const { onOpen, onClose, isOpen } = context;
 
-  const callApiWithToken = ({ method, url }: UseAuthentitactionParams) => {
-    context && context.setRequestInfo({ method, url });
+  const callApiWithToken = (options: UseAuthentitactionParams) => {
+    context && context.setRequestInfo(options);
+
+    reset();
 
     onOpen && onOpen();
   };
@@ -63,12 +92,18 @@ export const useAuthorization = () => {
       method: context.requestInfo.method,
       url: context.requestInfo.url,
       token,
+      options: context.requestInfo.options,
     });
+  };
+
+  const customOnCloseEvent = () => {
+    onClose();
+    reset();
   };
 
   return {
     isOpen,
-    onClose,
+    onClose: customOnCloseEvent,
     setToken,
     token,
     callApiWithToken,
