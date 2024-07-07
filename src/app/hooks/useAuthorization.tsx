@@ -43,10 +43,26 @@ export const useAuthorization = () => {
       return data;
     },
     onError: (error) => {
-      console.error("Error madafaker", error);
+      if (!context.requestInfo) {
+        return;
+      }
+
+      if (!context.requestInfo.options) {
+        return;
+      }
+
+      context.requestInfo.options.onError &&
+        context.requestInfo.options.onError(error);
     },
     onSuccess: (data) => {
-      console.log("Data", data);
+      if (!context.requestInfo) {
+        return;
+      }
+      if (!context.requestInfo.options) {
+        return;
+      }
+      context.requestInfo.options.onSuccess &&
+        context.requestInfo.options.onSuccess(data);
     },
   });
 
@@ -59,8 +75,8 @@ export const useAuthorization = () => {
 
   const { onOpen, onClose, isOpen } = context;
 
-  const callApiWithToken = ({ method, url, cb }: UseAuthentitactionParams) => {
-    context && context.setRequestInfo({ method, url, cb });
+  const callApiWithToken = (options: UseAuthentitactionParams) => {
+    context && context.setRequestInfo(options);
 
     reset();
 
@@ -76,13 +92,18 @@ export const useAuthorization = () => {
       method: context.requestInfo.method,
       url: context.requestInfo.url,
       token,
-      cb: context.requestInfo.cb,
+      options: context.requestInfo.options,
     });
+  };
+
+  const customOnCloseEvent = () => {
+    onClose();
+    reset();
   };
 
   return {
     isOpen,
-    onClose,
+    onClose: customOnCloseEvent,
     setToken,
     token,
     callApiWithToken,

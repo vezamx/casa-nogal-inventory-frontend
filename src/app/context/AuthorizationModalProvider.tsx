@@ -9,8 +9,6 @@ type AuthorizationContextType = {
   onClose: () => void;
   requestInfo?: UseAuthentitactionParams;
   setRequestInfo: (requestInfo: UseAuthentitactionParams) => void;
-  requestCb?: UseAuthenticationCb;
-  setRequestCb?: (requestCb: UseAuthenticationCb) => void;
 };
 export const AuthorizationContext = createContext<
   AuthorizationContextType | undefined
@@ -23,7 +21,6 @@ export const AuthorizationModalProvider: React.FC<{
   const [requestInfo, setRequestInfo] = React.useState<
     UseAuthentitactionParams | undefined
   >();
-  const [requestCb, setRequestCb] = React.useState<UseAuthenticationCb>();
   return (
     <AuthorizationContext.Provider
       value={{
@@ -32,8 +29,6 @@ export const AuthorizationModalProvider: React.FC<{
         onClose,
         requestInfo,
         setRequestInfo,
-        setRequestCb,
-        requestCb,
       }}
     >
       {children}

@@ -4,8 +4,8 @@ export type UseAuthentitactionParams =
       url: string;
       params?: string;
       options?: {
-        onSuccess: (data: any) => void;
-        onError: (error: any) => void;
+        onSuccess?: (data: any) => void;
+        onError?: (error: any) => void;
       };
     }
   | {
@@ -13,8 +13,8 @@ export type UseAuthentitactionParams =
       url: string;
       body?: Record<string, unknown>;
       options?: {
-        onSuccess: (data: any) => void;
-        onError: (error: any) => void;
+        onSuccess?: (data: any) => void;
+        onError?: (error: any) => void;
       };
     };
 
