@@ -15,12 +15,10 @@ import {
 import Image from "next/image";
 import {
   FaCalendarCheck,
-  FaHome,
   FaHotel,
   FaRegStickyNote,
   FaStoreSlash,
   FaUserClock,
-  FaUserLock,
   FaWarehouse
 } from "react-icons/fa";
 
@@ -69,17 +67,6 @@ const MenuButton = () => {
           <DrawerBody mt={5}>
             <VStack gap={6}>
               <MenuItem
-                title="Inicio"
-                icon={
-                  <FaHome
-                    style={{
-                      fontSize: "2.5em",
-                    }}
-                  />
-                }
-                href="/pages/home/"
-              />
-              <MenuItem
                 title="Pedidos"
                 icon={
                   <FaRegStickyNote
@@ -127,17 +114,6 @@ const MenuButton = () => {
                 title="Eventos"
                 icon={
                   <FaCalendarCheck
-                    style={{
-                      fontSize: "2.5em",
-                    }}
-                  />
-                }
-                href="#"
-              />
-              <MenuItem
-                title="Otros"
-                icon={
-                  <FaUserLock
                     style={{
                       fontSize: "2.5em",
                     }}

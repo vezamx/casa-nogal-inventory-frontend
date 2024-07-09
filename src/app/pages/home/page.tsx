@@ -1,7 +1,15 @@
+import MenuButton from "@/app/components/menuButton/MenuButton"
+import { YellowLine } from "@/app/components/yellowLine/YellowLine"
 
 const home = () => {
   return (
-    <div>home</div>
+    <div className="min-w-full bg-customGray mb-0">
+      <div>
+        <MenuButton />
+      </div>
+      
+      <YellowLine />
+    </div>
   )
 }
 
