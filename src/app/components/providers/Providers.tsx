@@ -11,7 +11,7 @@ const Providers: React.FC<ProvidersProps> = ({ children }) => {
   const customTheme = extendTheme({
     colors: {
       brand: {
-        yellow: "#FDCB5C",
+        yellow: { primary: "#FDCB5C", light: "#fedb8d" },
         gray: "#4A6572",
         background: "#EEEEEE",
       },
