@@ -108,7 +108,7 @@ const MenuButton = () => {
                     }}
                   />
                 }
-                href="/pages/hosting"
+                href="#"
               />
               <MenuItem
                 title="Eventos"
@@ -119,7 +119,7 @@ const MenuButton = () => {
                     }}
                   />
                 }
-                href="/pages/events"
+                href="#"
               />
               <MenuItem
                 title="Cerrar sistema"
