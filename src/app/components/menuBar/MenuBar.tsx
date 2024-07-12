@@ -3,16 +3,11 @@ import MenuButton from "../menuButton/MenuButton";
 const MenuBar = ({ menuButton = false }) => {
   return (
     <>
-      {menuButton ? (
-        <div className="h-12 max-w-full bg-customGray">
-          <MenuButton />
-        </div>
-      ) : (
-        <div className="h-12 max-w-full bg-customGray"></div>
-      )}
+      <div className="h-1/6 max-w-full bg-customGray">
+        {menuButton && <MenuButton />}
+      </div>
     </>
   );
 };
 
 export default MenuBar;
-
