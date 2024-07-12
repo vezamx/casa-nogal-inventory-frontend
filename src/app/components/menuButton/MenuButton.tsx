@@ -13,7 +13,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { FaHome } from "react-icons/fa";
+import {
+  FaCalendarCheck,
+  FaHotel,
+  FaRegStickyNote,
+  FaStoreSlash,
+  FaUserClock,
+  FaWarehouse
+} from "react-icons/fa";
 
 interface MenuItemProps {
   title: string;
@@ -60,26 +67,70 @@ const MenuButton = () => {
           <DrawerBody mt={5}>
             <VStack gap={6}>
               <MenuItem
-                title="Inicio"
-                icon={
-                  <FaHome
-                    style={{
-                      fontSize: "2.5em",
-                    }}
-                  />
-                }
-                href="/home"
-              />
-              <MenuItem
                 title="Pedidos"
                 icon={
-                  <FaHome
+                  <FaRegStickyNote
                     style={{
                       fontSize: "2.5em",
                     }}
                   />
                 }
-                href="/orders"
+                href="/pages/orders/"
+              />
+              <MenuItem
+                title="Inventarios"
+                icon={
+                  <FaWarehouse
+                    style={{
+                      fontSize: "2.5em",
+                    }}
+                  />
+                }
+                href="/pages/inventory"
+              />
+              <MenuItem
+                title="Abrir/Cerrar turno"
+                icon={
+                  <FaUserClock
+                    style={{
+                      fontSize: "2.5em",
+                    }}
+                  />
+                }
+                href="/pages/shifts/"
+              />
+              <MenuItem
+                title="Alojamiento"
+                icon={
+                  <FaHotel
+                    style={{
+                      fontSize: "2.5em",
+                    }}
+                  />
+                }
+                href="#"
+              />
+              <MenuItem
+                title="Eventos"
+                icon={
+                  <FaCalendarCheck
+                    style={{
+                      fontSize: "2.5em",
+                    }}
+                  />
+                }
+                href="#"
+              />
+              <MenuItem
+                title="Cerrar sistema"
+                icon={
+                  <FaStoreSlash
+                    style={{
+                      fontSize: "2.5em",
+                    }}
+                  />
+                }
+                href="/"
               />
             </VStack>
           </DrawerBody>
