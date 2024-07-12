@@ -108,7 +108,7 @@ const MenuButton = () => {
                     }}
                   />
                 }
-                href="#"
+                href="/pages/hosting"
               />
               <MenuItem
                 title="Eventos"
@@ -119,7 +119,7 @@ const MenuButton = () => {
                     }}
                   />
                 }
-                href="#"
+                href="/pages/events"
               />
               <MenuItem
                 title="Cerrar sistema"
@@ -130,7 +130,7 @@ const MenuButton = () => {
                     }}
                   />
                 }
-                href="#"
+                href="/"
               />
             </VStack>
           </DrawerBody>
