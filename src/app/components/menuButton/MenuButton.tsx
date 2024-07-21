@@ -16,6 +16,7 @@ import Image from "next/image";
 import {
   FaCalendarCheck,
   FaHotel,
+  FaPoll,
   FaRegStickyNote,
   FaStoreSlash,
   FaUserClock,
@@ -120,6 +121,17 @@ const MenuButton = () => {
                   />
                 }
                 href="#"
+              />
+              <MenuItem
+                title="Encuesta Satisfacción"
+                icon={
+                  <FaPoll
+                    style={{
+                      fontSize: "2.5em",
+                    }}
+                  />
+                }
+                href="/"
               />
               <MenuItem
                 title="Cerrar sistema"
