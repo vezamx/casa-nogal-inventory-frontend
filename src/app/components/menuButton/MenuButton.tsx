@@ -122,6 +122,17 @@ const MenuButton = () => {
                 href="#"
               />
               <MenuItem
+                title="Reportes"
+                icon={
+                  <FaCalendarCheck
+                    style={{
+                      fontSize: "2.5em",
+                    }}
+                  />
+                }
+                href="/pages/reports"
+              />
+              <MenuItem
                 title="Cerrar sistema"
                 icon={
                   <FaStoreSlash
