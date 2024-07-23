@@ -131,7 +131,7 @@ const MenuButton = () => {
                     }}
                   />
                 }
-                href="/"
+                href="/#"
               />
               <MenuItem
                 title="Cerrar sistema"
