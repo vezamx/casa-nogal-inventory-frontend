@@ -1,6 +1,103 @@
+import {
+  Center,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 
 export const Financial = () => {
   return (
-    <div>Financial report</div>
-  )
-}
+    <Center>
+      <TableContainer>
+        <Table variant="striped" colorScheme="gray">
+          <Thead>
+            <Tr>
+              <Th>Mes/Año</Th>
+              <Th>Ingresos año anterior</Th>
+              <Th>Egresos año anterior</Th>
+              <Th>Tasa de crecimiento</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            <Tr>
+              <Td>Enero</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Febrero</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Marzo</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Abril</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Mayo</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Junio</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Julio</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Agosto</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Septiembre</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Octubre</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Noviembre</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+            <Tr>
+              <Td>Diciembre</Td>
+              <Td>1,000,000</Td>
+              <Td>500,000</Td>
+              <Td>20%</Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </Center>
+  );
+};
