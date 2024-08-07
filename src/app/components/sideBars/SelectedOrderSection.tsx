@@ -1,5 +1,5 @@
 import { Grid, Text } from '@chakra-ui/react';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import MenuIconButton from '../Buttons/MenuIconButtons';
 import CustomModal from '../customModal/CustomModal';
 import OrderList from '../orderList/OrderList';
@@ -15,7 +15,7 @@ const orders = [
 ];
 
 const SelectedOrderSection = () => {
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [isModalOpened, setModalOpened] = useState(false);
     const [mergedOrder, setMergedOrder] = useState<string | null>(null);
 
     const handleMerge = (selectedOrders: { id: number; name: string }[]) => {
@@ -40,7 +40,7 @@ const SelectedOrderSection = () => {
             <MenuIconButton
                 label="Unir Cuentas"
                 image="/agregarCuenta.svg"
-                onClick={() => setModalOpen(true)}
+                onClick={() => setModalOpened(true)}
             />
             <MenuIconButton label="Añadir Producto" image="/addProduct.svg" />
             <MenuIconButton
@@ -54,8 +54,8 @@ const SelectedOrderSection = () => {
             )}
 
             <CustomModal
-                isOpen={isModalOpen}
-                onClose={() => setModalOpen(false)}
+                isOpen={isModalOpened}
+                onClose={() => setModalOpened(false)}
             >
                 <OrderList orders={orders} onMerge={handleMerge} />
             </CustomModal>

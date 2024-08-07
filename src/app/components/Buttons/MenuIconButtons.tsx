@@ -5,7 +5,6 @@ interface MenuIconButtonProps {
     label: string;
     image?: string;
     size?: sizesVariant;
-    onClick?: (event: MouseEvent) => void;
 }
 
 const sizesMap = new Map<sizesVariant, number>([
@@ -18,7 +17,6 @@ const MenuIconButton: React.FC<MenuIconButtonProps> = ({
     label,
     image,
     size = 'md',
-    onClick,
 }) => {
     return (
         <GridItem colSpan={sizesMap.get(size)} m={3}>
@@ -32,7 +30,6 @@ const MenuIconButton: React.FC<MenuIconButtonProps> = ({
                 w={'100%'}
                 p={3}
                 boxShadow={'lg'}
-                onClick={() => onClick}
             >
                 {image && (
                     <Image src={image} alt={label} width={60} height={60} />
