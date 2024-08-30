@@ -19,6 +19,7 @@ import {
   FaRegStickyNote,
   FaStoreSlash,
   FaUserClock,
+  FaUtensils,
   FaWarehouse
 } from "react-icons/fa";
 
@@ -120,6 +121,17 @@ const MenuButton = () => {
                   />
                 }
                 href="#"
+              />
+              <MenuItem
+                title="Cocina"
+                icon={
+                  <FaUtensils
+                    style={{
+                      fontSize: "2.5em",
+                    }}
+                  />
+                }
+                href="cook/"
               />
               <MenuItem
                 title="Cerrar sistema"
