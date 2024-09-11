@@ -14,7 +14,7 @@ export default function Home() {
     const messageTimer = setTimeout(() => {
       SetDelayNextText(true);
       const redirectTimer = setTimeout(() => {
-        router.push('/pages/orderMenu');
+        router.push('orderMenu');
       }, 3000);
 
       return () => clearTimeout(redirectTimer);

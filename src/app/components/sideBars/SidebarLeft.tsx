@@ -1,7 +1,11 @@
 import { Flex, Spacer, Text, VStack } from "@chakra-ui/react";
+import { useContext } from "react";
 import Logo from "../../components/logo/Logo";
+import { comandasContext } from "../../context/ComandaContexts";
 
 export const SidebarLeft = () => {
+  const { comandaContext, setComandaContext } = useContext<any>(comandasContext);
+  
   return (
     <Flex
       as={"aside"}
@@ -13,7 +17,13 @@ export const SidebarLeft = () => {
     >
       <Logo className="object-cover" width={200} height={200} />
       <VStack bgColor={"brand.yellow.light"} w="100%" height={"50%"}>
-        <Text>AAA</Text>
+        <Text>
+          {
+            comandaContext?.comanda?.id 
+            ? `Orden ID: ${comandaContext.comanda.id}` 
+            : "No hay orden seleccionada"
+          }
+        </Text>
       </VStack>
       <Flex
         flexDir="column"

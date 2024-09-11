@@ -30,6 +30,7 @@ const MenuIconButton: React.FC<MenuIconButtonProps> = ({
         w={"100%"}
         p={3}
         boxShadow={"lg"}
+        onClick={() => console.log("clicked")}
       >
         {image && <Image src={image} alt={label} width={60} height={60} />}
         <Text mt={3}>{label}</Text>
