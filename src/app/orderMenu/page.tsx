@@ -4,11 +4,12 @@ import MenuBar from "../components/menuBar/MenuBar";
 import { SidebarLeft } from "../components/sideBars/SidebarLeft";
 import { Viewport } from "next";
 import { Box, Flex, Button } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import SelectedOrderSection from "../components/sideBars/SelectedOrderSection";
 import OperationsSection from "../components/sideBars/OperationsSection";
 import OrderListSection from "../components/sideBars/OrderListSection";
-import { comandasContext } from "../context/ComandaContexts";
+import { comandasContext, ComandaContextProvider } from "../context/ComandaContexts";
+import { PayModal } from "../components/PayModal";
 
 export const viewport: Viewport = {
   themeColor: "black",
@@ -16,17 +17,26 @@ export const viewport: Viewport = {
 
 const Page = () => {
   const [selectedOrder, setSelectedOrder] = useState<string>("");
-  const [comandaContext, setComandaContext] = useState<any>(null);
+  const {  setComandas } = useContext(comandasContext);
 
+  // useEffect(() =>{
+  //   setComandaContext({
+  //     id:selectedOrder,
+  //     comanda:{id:selectedOrder, status:"abierta"},
+  //   });
+  // }, [selectedOrder]);
   useEffect(() =>{
-    setComandaContext({
-      id:selectedOrder,
-      comanda:{id:selectedOrder, status:"abierta"},
-    });
-  }, [selectedOrder]);
+    if(selectedOrder){
+      setComandas(prevComandas =>[
+        ...prevComandas,
+        {id:selectedOrder, status:"abierta"}
+      ]);
+    }
+  });
 
   return (
-    <comandasContext.Provider value={{ comandaContext, setComandaContext }}>
+    // <comandasContext.Provider value={{ comandaContext, setComandaContext }}>
+    <ComandaContextProvider >
       <Flex w={"100vw"} height="100dvh" width={"100dvw"} margin={0} p={0}>
         <Box w={"80%"} className="bg-gray-100">
           <div>
@@ -45,7 +55,9 @@ const Page = () => {
         </Box>
         <SidebarLeft />
       </Flex>
-    </comandasContext.Provider>
+      <PayModal />
+      </ComandaContextProvider>
+    // <comandasContext.Provider>
   );
 };
 

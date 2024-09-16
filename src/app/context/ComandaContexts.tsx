@@ -1,8 +1,17 @@
-import { createContext } from "react";
+import {
+  createContext,
+  ReactNode,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 interface IComandasContextProps {
     comandas: any[];
-    setComandas: React.Dispatch<React.SetStateAction<any[]>>;
+    setComandas: Dispatch<SetStateAction<any[]>>;
+    isPayModalOpen: boolean;//manejo de estado del modal
+    openPayModal: () => void;
+    closePayModal: () => void;
 }
 
 enum EComanda {
@@ -22,5 +31,29 @@ interface IComanda{
 
 export const comandasContext = createContext<IComandasContextProps>({
   comandas: [],
-  setComandas: () => {}
+  setComandas: () => {},
+  isPayModalOpen: false,
+  openPayModal: () => {},
+  closePayModal: () => {},
 });
+
+export const ComandaContextProvider = ({ children }: {children: ReactNode}) =>{
+  const [comandas, setComandas] = useState<IComanda[]>([]);
+  const [isPayModalOpen, setIsPayModalOpen] = useState(false);
+  const openPayModal = () => setIsPayModalOpen(true);
+  const closePayModal = () => setIsPayModalOpen(false);
+
+  return (
+    <comandasContext.Provider
+      value={{
+        comandas,
+        setComandas,
+        isPayModalOpen,
+        openPayModal,
+        closePayModal,
+      }}
+    >
+      {children}
+    </comandasContext.Provider>
+  );
+};

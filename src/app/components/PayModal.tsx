@@ -1,7 +1,8 @@
 import React,
   {
-    useRef,
-    useEffect,
+    // useRef,
+    // useEffect,
+    useContext,
   } from 'react';
 import {
   Modal,
@@ -10,87 +11,40 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  useDisclosure,
+  // useDisclosure,
   Text,
   Spinner,
 } from '@chakra-ui/react';
+import { comandasContext } from '../context/ComandaContexts';
 
 export const PayModal = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const inputRef = useRef<HTMLInputElement>(null);
-  let isLoading:boolean = false;
-  let error:any = null;
-
-  useEffect(() => {
-    onOpen();
-  }, [isOpen]);
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  // const inputRef = useRef<HTMLInputElement>(null);
+  // let isLoading:boolean = false;
+  // let error:any = null;
+  // useEffect(() => {
+  //   onOpen();
+  // }, [isOpen]);
+  const { isPayModalOpen, closePayModal } = useContext(comandasContext);
+  // const isLoading = false; //cargando
+  // const error:string | null = null;//en caso de error
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={isPayModalOpen}
+      onClose={closePayModal}
       isCentered
       size={"xl"}
     >
       <ModalOverlay />
       <ModalContent bgColor={"brand.gray"}>
       <ModalCloseButton />
-        <>
-        {
-          isLoading && (
-            <ModalBody
-              h={"100%"}
-              w={"100%"}
-              display={"flex"}
-              flexDir={"column"}
-              justifyItems={"center"}
-              alignItems={"center"}
-            >
-              <Spinner size="xl" />
-              <Text
-                mt={5}
-                fontSize={"2xl"}
-                color={"brand.background"}
-                fontWeight={"bold"}
-              >
-                Procesando pago ...
-              </Text>
-            </ModalBody>
-        )}
-        ({
-          error && (
-            <ModalBody
-              h={"100%"}
-              w={"100%"}
-              display={"flex"}
-              flexDir={"column"}
-              justifyItems={"center"}
-              alignItems={"center"}
-            >
-              <Text
-                mt={5}
-                fontSize={"2xl"}
-                color={"brand.background"}
-                fontWeight={"bold"}
-              >
-                Error al procesar el pago
-              </Text>
-              <Text
-                mt={5}
-                fontSize={"2xl"}
-                color={"brand.background"}
-                fontWeight={"bold"}
-              >
-                {error}
-              </Text>
-              <Button colorScheme="red" onClick={onClose}>
-                Cerrar
-              </Button>
-            </ModalBody>
-          )
-        })
-        </>
-        PayModal
+        <ModalBody>
+          <Text fontSize={"2xl"}>Pagar</Text>
+          <Text fontSize={"xl"}>¿Desea pagar la cuenta?</Text>
+          <Text fontSize={"xl"}>Total: $100.00</Text>
+        </ModalBody>
+        
       </ModalContent>
     </Modal>
   )
