@@ -56,15 +56,6 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
           pt={2}
           gap={0}
         >
-          {/* <OrderListButton
-            orderName="Orden 1"
-            onClick={() => {
-              if (selectedOrder !== "Orden 1") handleOrderClick("Orden 1");
-              else handleOrderClick("");
-            }}
-            isSelected={selectedOrder === "Orden 1"}
-          />
-          <OrderListButton orderName="Orden w" /> */}
           {
            comanda && comanda.map((comanda) => (
             <OrderListButton
