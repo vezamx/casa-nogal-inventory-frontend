@@ -47,17 +47,15 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       flexDir={"row"}
       justifyContent="flex-start"
     >
-      {/* Primer VStack */}
       <VStack
-        width={"18%"}  // Ajustar ancho para que quepan 5 elementos
-        minWidth="200px" // Ancho mínimo para pantallas pequeñas
+        width={"18%"}
+        minWidth="200px"
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
         <Text>Categoría 1</Text>
       </VStack>
 
-      {/* Segundo VStack */}
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -67,7 +65,6 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         <Text>Categoría 2</Text>
       </VStack>
 
-      {/* Tercer VStack */}
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -77,7 +74,6 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         <Text>Categoría 3</Text>
       </VStack>
 
-      {/* Cuarto VStack */}
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -87,7 +83,6 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         <Text>Categoría 4</Text>
       </VStack>
 
-      {/* Quinto VStack */}
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -97,7 +92,6 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         <Text>Categoría 5</Text>
       </VStack>
 
-      {/* Sexto VStack */}
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -107,7 +101,6 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         <Text>Categoría 6</Text>
       </VStack>
 
-      {/* Séptimo VStack */}
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -117,7 +110,6 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         <Text>Categoría 7</Text>
       </VStack>
 
-      {/* Octavo VStack */}
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -127,7 +119,6 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         <Text>Categoría 8</Text>
       </VStack>
 
-      {/* Noveno VStack */}
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -137,7 +128,6 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         <Text>Categoría 9</Text>
       </VStack>
 
-      {/* Décimo VStack */}
       <VStack
         width={"18%"}
         minWidth="200px"

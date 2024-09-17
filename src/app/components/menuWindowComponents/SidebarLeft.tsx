@@ -16,16 +16,16 @@ export const SidebarLeft = () => {
       p={4}
     >
       <Logo className="object-cover" width={200} height={200} />
-      <VStack bgColor={"brand.yellow.light"} w="100%" height={"50%"}>
+      <VStack bgColor={"brand.yellow.light"} w="100%" height={"70%"}>
         <Text>
           {
             comandaContext?.comanda?.id 
             ? `Orden ID: ${comandaContext.comanda.id}` 
-            : "No hay orden seleccionada"
+            : "No hay platillos a mostrar"
           }
         </Text>
       </VStack>
-      <Flex
+      {/* <Flex
         flexDir="column"
         w={"100%"}
         h="30%"
@@ -37,7 +37,7 @@ export const SidebarLeft = () => {
         <PriceDescriptionContainer title="Descuentos" price={100} />
         <Spacer />
         <PriceDescriptionContainer title="Total" price={100} />
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 };
