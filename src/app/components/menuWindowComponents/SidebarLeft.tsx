@@ -1,64 +1,116 @@
-import { Flex, Spacer, Text, VStack } from "@chakra-ui/react";
-import { useContext } from "react";
+import { Box, Flex, Image, Text, VStack, IconButton, HStack } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import Logo from "../../components/logo/Logo";
-import { comandasContext } from "../../context/ComandaContexts";
 
 export const SidebarLeft = () => {
-  const { comandaContext, setComandaContext } = useContext<any>(comandasContext);
-  
   return (
     <Flex
-      as={"aside"}
-      gap={4}
+      as="aside"
+      direction="column"
       h="100vh"
       w="30%"
-      className="bg-customYellow -screen  min-w-screen flex flex-col items-center  "
+      bg="brand.yellow.primary"
       p={4}
+      align="center"
+      boxShadow="lg"
+      overflowY="auto" // Permite scroll si el contenido excede la altura
     >
-      <Logo className="object-cover" width={200} height={200} />
-      <VStack bgColor={"brand.yellow.light"} w="100%" height={"70%"}>
-        <Text>
-          {
-            comandaContext?.comanda?.id 
-            ? `Orden ID: ${comandaContext.comanda.id}` 
-            : "No hay platillos a mostrar"
-          }
-        </Text>
-      </VStack>
-      {/* <Flex
-        flexDir="column"
-        w={"100%"}
-        h="30%"
-        bgColor={"brand.yellow.light"}
-        p={5}
-        gap={4}
+      {/* Logo */}
+      <Logo width={150} height={150} mb={4} />
+
+      {/* Contenedor de Comandas */}
+      <VStack
+        w="100%"
+        bg="brand.yellow.light"
+        p={4}
+        borderRadius="lg"
+        boxShadow="md"
+        spacing={4}
+        align="flex-start"
       >
-        <PriceDescriptionContainer title="Subtotal" price={100} />
-        <PriceDescriptionContainer title="Descuentos" price={100} />
-        <Spacer />
-        <PriceDescriptionContainer title="Total" price={100} />
-      </Flex> */}
+        <Text fontSize="lg" fontWeight="bold" textAlign="center" w="100%">
+          Ejemplo de Estructura de Comandas en la orden
+        </Text>
+
+        {/* Tarjetas de ejemplo */}
+        {[1, 2, 3, 4].map((item) => (
+          <Flex
+            key={item}
+            w="100%"
+            bg="white"
+            p={3}
+            borderRadius="md"
+            boxShadow="sm"
+            alignItems="center"
+            justifyContent="space-between"
+            mb={3} // Margen inferior para separar las tarjetas
+          >
+            {/* Imagen del platillo */}
+            <Box
+              boxSize="50px"
+              borderRadius="md"
+              overflow="hidden"
+              mr={3}
+              bgColor={"wheat"}
+            >
+              <Image
+                src="/ruta-platillo.jpg"
+                alt="Foto Platillo"
+                boxSize="100%"
+                objectFit="cover"
+              />
+            </Box>
+
+            {/* Contenedor de detalles, ocupa todo el espacio disponible a la derecha de la imagen */}
+            <Flex direction="column" flex="1" spacing={3}>
+              {/* Nombre del platillo, ocupa 100% del ancho */}
+              <Box
+                w="100%" // Ocupa todo el ancho disponible
+                h="25px" // Altura ajustada para darle más prominencia
+                bg="brand.yellow.primary"
+                borderRadius="md"
+                mb={1} // Margen inferior para separar de los demás detalles
+                display="flex"
+                alignItems="center"
+                justifyContent="center" // Centrar el texto vertical y horizontalmente
+                color="white" // Cambiar color del texto para mejor contraste
+                fontWeight="bold"
+              >
+                
+              </Box>
+
+              {/* Detalles adicionales y botón de eliminación en la misma fila */}
+              <Flex alignItems="center" justifyContent="space-between">
+                <Box
+                  w="50px" // Mismo tamaño que el cuadro rojo
+                  h="30px" // Mismo tamaño que el cuadro rojo
+                  bg="brand.yellow.primary"
+                  borderRadius="md"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  fontWeight="bold"
+                  color="white"
+                >
+                  
+                </Box>
+                
+                <IconButton
+                  icon={<CloseIcon />}
+                  colorScheme="red"
+                  size="sm"
+                  aria-label="Eliminar platillo"
+                  w="50px" // Ajuste del ancho para coincidir con el cuadro
+                  h="30px" // Ajuste de la altura para coincidir con el cuadro
+                  ml={3}
+                />
+              </Flex>
+            </Flex>
+          </Flex>
+        ))}
+      </VStack>
     </Flex>
   );
 };
 
-interface PriceDescriptionContainerProps {
-  title: string;
-  price?: number;
-}
-const PriceDescriptionContainer: React.FC<PriceDescriptionContainerProps> = ({
-  title,
-  price = 0,
-}) => {
-  return (
-    <Flex width={"100%"} h={10} bgColor={"white"} align={"center"} px={3}>
-      <Text mr={5}>{title}</Text>
-      <Text fontWeight={"bold"}>{price}</Text>
-    </Flex>
-  );
-};
-
-interface OrderProductContainerProps {}
-const OrderProductContainer: React.FC<OrderProductContainerProps> = () => {
-  return <></>;
-};
+export default SidebarLeft;

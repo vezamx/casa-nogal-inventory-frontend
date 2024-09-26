@@ -18,16 +18,7 @@ import {
 import { comandasContext } from '../context/ComandaContexts';
 
 export const PayModal = () => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  // const inputRef = useRef<HTMLInputElement>(null);
-  // let isLoading:boolean = false;
-  // let error:any = null;
-  // useEffect(() => {
-  //   onOpen();
-  // }, [isOpen]);
   const { isPayModalOpen, closePayModal } = useContext(comandasContext);
-  // const isLoading = false; //cargando
-  // const error:string | null = null;//en caso de error
 
   return (
     <Modal

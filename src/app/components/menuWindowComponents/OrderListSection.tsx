@@ -1,4 +1,4 @@
-import { Flex, VStack, StackDivider, Text } from "@chakra-ui/react";
+import { Flex, VStack, StackDivider, Text, Link } from "@chakra-ui/react";
 import OrderListButton from "../Buttons/OrderListButton";
 import {
   Dispatch,
@@ -26,12 +26,13 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
 }) => {
   const [comanda, setComanda] = useState<Data[]|null>(null);
 
-  useEffect(() =>{
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/comandas`)
-      .then((response) => response.json())
-      .then((data) => setComanda(data))
-      .catch(error => console.error('Error al traer la comandas:', error));
-  }, []);
+  //no se si sirve pero se supone que es para formar los VStacks
+  // useEffect(() =>{
+  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/comandas`)
+  //     .then((response) => response.json())
+  //     .then((data) => setComanda(data))
+  //     .catch(error => console.error('Error al traer la comandas:', error));
+  // }, []);
 
   const handleOrderClick = (orderName: string) => {
     setSelectedOrder(orderName);
@@ -47,6 +48,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       flexDir={"row"}
       justifyContent="flex-start"
     >
+      <Link href="#" > 
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -55,7 +57,9 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       >
         <Text>Categoría 1</Text>
       </VStack>
+      </Link>
 
+      <Link href="#"> 
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -64,7 +68,9 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       >
         <Text>Categoría 2</Text>
       </VStack>
+      </Link>
 
+      <Link href="#"> 
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -73,7 +79,9 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       >
         <Text>Categoría 3</Text>
       </VStack>
+      </Link>
 
+      <Link href="#"> 
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -82,7 +90,9 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       >
         <Text>Categoría 4</Text>
       </VStack>
+      </Link>
 
+      <Link href="#"> 
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -91,7 +101,9 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       >
         <Text>Categoría 5</Text>
       </VStack>
+      </Link>
 
+      <Link href="#"> 
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -100,7 +112,9 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       >
         <Text>Categoría 6</Text>
       </VStack>
+      </Link>
 
+      <Link href="#"> 
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -109,7 +123,9 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       >
         <Text>Categoría 7</Text>
       </VStack>
+      </Link>
 
+      <Link href="#"> 
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -118,7 +134,9 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       >
         <Text>Categoría 8</Text>
       </VStack>
+      </Link>
 
+      <Link href="#"> 
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -127,7 +145,9 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       >
         <Text>Categoría 9</Text>
       </VStack>
+      </Link>
 
+      <Link href="#"> 
       <VStack
         width={"18%"}
         minWidth="200px"
@@ -136,65 +156,9 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
       >
         <Text>Categoría 10</Text>
       </VStack>
+      </Link>
     </Flex>
   );
 };
 
 export default OrderListSection;
-/*
-import { Flex, VStack, StackDivider, Text } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
-
-interface OrderListSectionProps {
-  selectedOrder: string;
-  setSelectedOrder: Dispatch<SetStateAction<string>>;
-}
-
-interface Data {
-  message: string;
-}
-
-interface OrderListSelections {
-  data: Data;
-}
-
-const OrderListSection: React.FC<OrderListSectionProps> = ({
-  selectedOrder,
-  setSelectedOrder,
-}) => {
-  const [comanda, setComanda] = useState<Data[] | null>(null);
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/comandas`)
-      .then((response) => response.json())
-      .then((data) => setComanda(data))
-      .catch((error) => console.error("Error al traer las comandas:", error));
-  }, []);
-
-  const handleOrderClick = (orderName: string) => {
-    setSelectedOrder(orderName);
-  };
-
-  return (
-    <Flex
-      w="100%"           // Ancho completo del contenedor
-      wrap="wrap"        // Permite que los elementos pasen a la siguiente fila cuando no haya espacio
-      gap={6}            // Espacio entre los VStack
-      justifyContent="flex-start" // Alinear los elementos a la izquierda
-    >
-      {[...Array(20).keys()].map((item, index) => (
-        <VStack
-          key={index}
-          width={"18%"}  // Ajusta el ancho de los elementos para que quepan 5 en una fila
-          minWidth="200px" // Asegura que los elementos tengan un mínimo ancho
-          divider={<StackDivider style={{ margin: 0 }} p={0} />}
-        >
-          <Text>{`Categoría ${index + 1}`}</Text>
-        </VStack>
-      ))}
-    </Flex>
-  );
-};
-
-export default OrderListSection;
-*/
