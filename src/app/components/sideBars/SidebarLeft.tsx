@@ -1,5 +1,6 @@
-import { Flex, Spacer, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Spacer, Text, VStack } from "@chakra-ui/react";
 import Logo from "../../components/logo/Logo";
+import Image from "next/image";
 
 export const SidebarLeft = () => {
   return (
@@ -12,8 +13,8 @@ export const SidebarLeft = () => {
       p={4}
     >
       <Logo className="object-cover" width={200} height={200} />
-      <VStack bgColor={"brand.yellow.light"} w="100%" height={"50%"}>
-        <Text>AAA</Text>
+      <VStack bgColor={"brand.yellow.light"} w="100%" height={"50%"} pt={4}>
+        <OrderProductContainer />
       </VStack>
       <Flex
         flexDir="column"
@@ -50,5 +51,19 @@ const PriceDescriptionContainer: React.FC<PriceDescriptionContainerProps> = ({
 
 interface OrderProductContainerProps {}
 const OrderProductContainer: React.FC<OrderProductContainerProps> = () => {
-  return <></>;
+  return (
+    <Flex w="100%" px={4}>
+      <Box width="20%"></Box>
+      <Flex direction={"column"} w={"80%"} gap={2}>
+        <Text bgColor={"white"} py={1} px={2} boxShadow={"lg"}>
+          Nombre del producto
+        </Text>
+        <Flex id="numbers-container">
+          <Text bgColor="white" py={1} px={2} boxShadow={"lg"}>
+            cantidad: 2
+          </Text>
+        </Flex>
+      </Flex>
+    </Flex>
+  );
 };
