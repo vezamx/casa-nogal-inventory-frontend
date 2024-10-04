@@ -89,56 +89,54 @@ import {
   useState,
   Dispatch,
   SetStateAction,
-} from "react";
+} from 'react';
 
 interface IComandasContextProps {
   comandas: any[];
   setComandas: Dispatch<SetStateAction<any[]>>;
   isPayModalOpen: boolean;
-  openPayModal: (type: 'pay' | 'divide') => void;
+  openPayModal: () => void;
   closePayModal: () => void;
-  modalType: 'pay' | 'divide';
   onlyMenu: boolean;
   deleteProduct: boolean;
   addProduct: boolean;
   setOnlyMenu: (value: boolean) => void;
   setDeleteProduct: (value: boolean) => void;
   setAddProduct: (value: boolean) => void;
+  payModalMode: 'pay' | 'split'; // Estado del modo del modal
+  setPayModalMode: (mode: 'pay' | 'split') => void; // Función para cambiar el modo
 }
 
+// Contexto inicializado con valores predeterminados
 export const comandasContext = createContext<IComandasContextProps>({
   comandas: [],
   setComandas: () => {},
   isPayModalOpen: false,
   openPayModal: () => {},
   closePayModal: () => {},
-  modalType: 'pay',
   onlyMenu: false,
   deleteProduct: false,
   addProduct: false,
   setOnlyMenu: () => {},
   setDeleteProduct: () => {},
-  setAddProduct: () => {}
+  setAddProduct: () => {},
+  payModalMode: 'pay', // Valor predeterminado
+  setPayModalMode: () => {},
 });
 
-export const ComandaContextProvider = ({
-  children,
-}:{
-  children: ReactNode
-}) =>{
+export const ComandaContextProvider = ({ children }: { children: ReactNode }) => {
   const [comandas, setComandas] = useState<any[]>([]);
-  const [isPayModalOpen, setPayModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<'pay' | 'divide'>('pay');
+  const [isPayModalOpen, setIsPayModalOpen] = useState(false);
   const [onlyMenu, setOnlyMenu] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState(false);
   const [addProduct, setAddProduct] = useState(false);
+  const [payModalMode, setPayModalMode] = useState<'pay' | 'split'>('pay'); // Inicializado en 'pay'
 
-  const openPayModal = (type: 'pay' | 'divide') => {
-    setModalType(type);
-    setPayModalOpen(true);
-  };
-  
-  const closePayModal = () => setPayModalOpen(false);
+  // Función para abrir el modal
+  const openPayModal = () => setIsPayModalOpen(true);
+
+  // Función para cerrar el modal
+  const closePayModal = () => setIsPayModalOpen(false);
 
   return (
     <comandasContext.Provider
@@ -148,13 +146,14 @@ export const ComandaContextProvider = ({
         isPayModalOpen,
         openPayModal,
         closePayModal,
-        modalType,
         onlyMenu,
-        setOnlyMenu,
         deleteProduct,
-        setDeleteProduct,
         addProduct,
+        setOnlyMenu,
+        setDeleteProduct,
         setAddProduct,
+        payModalMode, // Estado del modo del modal
+        setPayModalMode, // Función para cambiar el modo del modal
       }}
     >
       {children}

@@ -19,6 +19,7 @@ export const viewport: Viewport = {
 };
 
 const Page = () => {
+  const { openPayModal, payModalMode } = useContext(comandasContext);
   const [selectedOrder, setSelectedOrder] = useState<string>("");
 
   return (
@@ -36,7 +37,6 @@ const Page = () => {
             w="100%"
             className="h-5/6"
             p={8}
-            // gap={6}
             flexDir={"column-reverse"}
           >
             <SelectedOrderSection />
@@ -48,7 +48,8 @@ const Page = () => {
         </Box>
         <SidebarLeft />
       </Flex>
-      <PayModal />
+      
+      <PayModal mode={payModalMode} />
     </ComandaContextProvider>
   );
 };

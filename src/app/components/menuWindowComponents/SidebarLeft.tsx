@@ -1,8 +1,21 @@
+"use strict"
 import { Box, Flex, Image, Text, VStack, IconButton, HStack } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import Logo from "../../components/logo/Logo";
+import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { comandasContext } from "@/app/context/ComandaContexts";
 
 export const SidebarLeft = () => {
+  const [hashValue, setHashValue] = useState('');
+  //const router = useRouter();
+
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     setHashValue(window.location.hash); // Obtén el hash de la URL
+  //   }
+  // }, [router.asPath]); // Se actualiza cada vez que cambia la ruta
+  
   return (
     <Flex
       as="aside"
@@ -13,12 +26,10 @@ export const SidebarLeft = () => {
       p={4}
       align="center"
       boxShadow="lg"
-      overflowY="auto" // Permite scroll si el contenido excede la altura
+      overflowY="auto"
     >
-      {/* Logo */}
       <Logo width={150} height={150} mb={4} />
 
-      {/* Contenedor de Comandas */}
       <VStack
         w="100%"
         bg="brand.yellow.light"
@@ -32,7 +43,6 @@ export const SidebarLeft = () => {
           Ejemplo de Estructura de Comandas en la orden
         </Text>
 
-        {/* Tarjetas de ejemplo */}
         {[1, 2, 3, 4].map((item) => (
           <Flex
             key={item}
@@ -43,9 +53,8 @@ export const SidebarLeft = () => {
             boxShadow="sm"
             alignItems="center"
             justifyContent="space-between"
-            mb={3} // Margen inferior para separar las tarjetas
+            mb={3}
           >
-            {/* Imagen del platillo */}
             <Box
               boxSize="50px"
               borderRadius="md"
@@ -61,28 +70,25 @@ export const SidebarLeft = () => {
               />
             </Box>
 
-            {/* Contenedor de detalles, ocupa todo el espacio disponible a la derecha de la imagen */}
             <Flex direction="column" flex="1" spacing={3}>
-              {/* Nombre del platillo, ocupa 100% del ancho */}
               <Box
-                w="100%" // Ocupa todo el ancho disponible
-                h="25px" // Altura ajustada para darle más prominencia
+                w="100%"
+                h="25px"
                 bg="brand.yellow.primary"
                 borderRadius="md"
-                mb={1} // Margen inferior para separar de los demás detalles
+                mb={1}
                 display="flex"
                 alignItems="center"
-                justifyContent="center" // Centrar el texto vertical y horizontalmente
-                color="white" // Cambiar color del texto para mejor contraste
+                justifyContent="center"
+                color="white"
                 fontWeight="bold"
               >
                 
               </Box>
 
-              {/* Detalles adicionales y botón de eliminación en la misma fila */}
               <Flex alignItems="center" justifyContent="space-between">
                 <Box
-                  w="50px" // Mismo tamaño que el cuadro rojo
+                  w="50px"
                   h="30px" // Mismo tamaño que el cuadro rojo
                   bg="brand.yellow.primary"
                   borderRadius="md"
@@ -94,14 +100,16 @@ export const SidebarLeft = () => {
                 >
                   
                 </Box>
-                
+                {
+
+                }
                 <IconButton
                   icon={<CloseIcon />}
                   colorScheme="red"
                   size="sm"
                   aria-label="Eliminar platillo"
-                  w="50px" // Ajuste del ancho para coincidir con el cuadro
-                  h="30px" // Ajuste de la altura para coincidir con el cuadro
+                  w="50px"
+                  h="30px"
                   ml={3}
                 />
               </Flex>
