@@ -55,7 +55,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
-        <Text>Categoría 1</Text>
+        <Text>Sopas</Text>
       </VStack>
       </Link>
 
@@ -66,7 +66,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
-        <Text>Categoría 2</Text>
+        <Text>Entradas</Text>
       </VStack>
       </Link>
 
@@ -77,7 +77,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
-        <Text>Categoría 3</Text>
+        <Text>Cortes</Text>
       </VStack>
       </Link>
 
@@ -88,7 +88,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
-        <Text>Categoría 4</Text>
+        <Text>Ensaldas</Text>
       </VStack>
       </Link>
 
@@ -99,7 +99,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
-        <Text>Categoría 5</Text>
+        <Text>Postres</Text>
       </VStack>
       </Link>
 
@@ -110,7 +110,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
-        <Text>Categoría 6</Text>
+        <Text>Bebidas sin alcohol</Text>
       </VStack>
       </Link>
 
@@ -121,7 +121,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
-        <Text>Categoría 7</Text>
+        <Text>Bebidas con alcohol</Text>
       </VStack>
       </Link>
 
@@ -132,7 +132,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
-        <Text>Categoría 8</Text>
+        <Text>Cafetería</Text>
       </VStack>
       </Link>
 
@@ -143,7 +143,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
-        <Text>Categoría 9</Text>
+        <Text>Pastas</Text>
       </VStack>
       </Link>
 
@@ -154,7 +154,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
         divider={<StackDivider style={{ margin: 0 }} p={0} />}
         bgColor={"white"}
       >
-        <Text>Categoría 10</Text>
+        <Text>Platillos infantiles</Text>
       </VStack>
       </Link>
     </Flex>
