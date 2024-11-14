@@ -3,7 +3,6 @@
 import {
   Flex,
   Box,
-  Spacer,
   Select,
   VStack,
   FormControl,
@@ -13,20 +12,23 @@ import {
   Icon,
   InputGroup,
   HStack,
-  Text,
 } from "@chakra-ui/react";
 import { FC, ReactNode } from "react";
 import { FaSearch } from "react-icons/fa";
+import SectionItems from "./components/SectionsItems";
+import { usePathname } from "next/navigation";
 
 const categories = ["Productos", "Insumos"];
 
-const layout: FC<{ children: ReactNode }> = ({ children }) => {
+const Layout: FC<{ children: ReactNode }> = ({ children }) => {
+  const pathname = usePathname();
+
   return (
     <Flex>
       <Flex bgColor="brand.gray" w={"20%"} h={"100dvh"} flexDir={"column"}>
         {/* Heres the icon  */}
 
-        <VStack px={4} gap={6}>
+        <VStack px={4} gap={6} h={"100%"} py={6}>
           <FormControl>
             <FormLabel color={"brand.background"}>Ordenar por</FormLabel>
             <Select placeholder="Ordenar por" bgColor={"brand.background"}>
@@ -79,29 +81,21 @@ const layout: FC<{ children: ReactNode }> = ({ children }) => {
       <Flex flexDir={"column"} w={"80%"} bgColor="brand.background">
         <Flex h="8%" bgColor={"white"}>
           <HStack paddingX={10}>
-            <Flex
-              flexDir="column"
-              justify={"center"}
-              h={"100%"}
-              _after={{
-                content: '""',
-                w: "100%",
-                h: "4px",
-                bgColor: "brand.yellow.primary",
-                position: "relative",
-                bottom: "-30%",
-              }}
-            >
-              <Text fontWeight="bold" fontSize={"large"}>
-                Productos
-              </Text>
-            </Flex>
+            {categories.map((category) => (
+              <SectionItems
+                key={category}
+                item={category}
+                isActive={pathname.includes(category.toLowerCase())}
+              />
+            ))}
           </HStack>
         </Flex>
-        <Box>{children}</Box>
+        <Box width={"100%"} height={"100%"}>
+          {children}
+        </Box>
       </Flex>
     </Flex>
   );
 };
 
-export default layout;
+export default Layout;
