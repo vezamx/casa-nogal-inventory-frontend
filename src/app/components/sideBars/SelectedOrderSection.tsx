@@ -46,3 +46,4 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = ({
 };
 
 export default SelectedOrderSection;
+//menú añadir producto buscar la forma de meterlo en un ternario usando reactContext
