@@ -7,6 +7,8 @@ interface ProvidersProps {
   children: React.ReactNode;
 }
 
+const queryClient = new QueryClient();
+
 const Providers: React.FC<ProvidersProps> = ({ children }) => {
   const customTheme = extendTheme({
     colors: {
@@ -18,7 +20,6 @@ const Providers: React.FC<ProvidersProps> = ({ children }) => {
     },
   });
 
-  const queryClient = new QueryClient();
   return (
     <React.Fragment>
       <ChakraProvider theme={customTheme}>
