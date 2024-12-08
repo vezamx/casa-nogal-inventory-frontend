@@ -1,16 +1,16 @@
 import { Flex, VStack, StackDivider, Text } from "@chakra-ui/react";
 import OrderListButton from "../Buttons/OrderListButton";
-import { Dispatch, SetStateAction } from "react";
+import { useContext } from "react";
+import { IComanda } from "@/app/types";
+import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
 
 interface OrderListSectionProps {
-  selectedOrder: string;
-  setSelectedOrder: Dispatch<SetStateAction<string>>;
+  orderList: IComanda[];
 }
 
-const OrderListSection: React.FC<OrderListSectionProps> = ({
-  selectedOrder,
-  setSelectedOrder,
-}) => {
+const OrderListSection: React.FC<OrderListSectionProps> = ({ orderList }) => {
+  const { selectedOrder, setSelectedOrder } = useContext(selectedOrderContext);
+
   const handleOrderClick = (orderName: string) => {
     setSelectedOrder(orderName);
   };
@@ -34,15 +34,18 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({
           pt={2}
           gap={0}
         >
-          <OrderListButton
-            orderName="Orden 1"
-            onClick={() => {
-              if (selectedOrder !== "Orden 1") handleOrderClick("Orden 1");
-              else handleOrderClick("");
-            }}
-            isSelected={selectedOrder === "Orden 1"}
-          />
-          <OrderListButton orderName="Orden w" />
+          {orderList.map((order) => (
+            <OrderListButton
+              key={order.id}
+              orderName={order.documentId}
+              onClick={() => {
+                if (selectedOrder !== order.documentId)
+                  handleOrderClick(order.documentId);
+                else handleOrderClick("");
+              }}
+              isSelected={selectedOrder === order.documentId}
+            />
+          ))}
         </VStack>
       </Flex>
     </Flex>
