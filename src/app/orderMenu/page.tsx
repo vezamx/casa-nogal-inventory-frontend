@@ -4,7 +4,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { Viewport } from "next";
 import MenuBar from "../components/menuBar/MenuBar";
 import OrderListSection from "../components/sideBars/OrderListSection";
-import { SidebarLeft } from "../components/sideBars/SidebarLeft";
+import { OrderItemsSidebar } from "../components/sideBars/SelectedOrderSidebar";
 import { SelectedOrderProvider } from "../context/SelectedOrderContext";
 import { useApiGetInfo } from "../hooks/useApiCall";
 import { IComanda } from "../types";
@@ -41,7 +41,7 @@ const Page = () => {
             </Flex>
           )}
         </Box>
-        <SidebarLeft />
+        <OrderItemsSidebar />
       </SelectedOrderProvider>
     </Flex>
   );

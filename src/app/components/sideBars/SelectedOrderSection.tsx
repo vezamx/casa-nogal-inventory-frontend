@@ -2,6 +2,14 @@ import { Grid } from "@chakra-ui/react";
 import React, { useState, Dispatch, FC, SetStateAction } from "react";
 import RestaurantMenu  from "./RestaurantMenu";
 import MenuIconButton from "../Buttons/MenuIconButtons";
+import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
+
+interface SelectedOrderSectionProps {}
+const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
+  const { setIsEditingOrder, isEditingOrder } =
+    useContext(selectedOrderContext);
+
+  const handleChangeisEditing = () => setIsEditingOrder((prev) => !prev);
 
 const SelectedOrderSection: FC<SelectedOrderSectionProps> = ({
   setSelectedOrder,
@@ -46,4 +54,3 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = ({
 };
 
 export default SelectedOrderSection;
-//menú añadir producto buscar la forma de meterlo en un ternario usando reactContext

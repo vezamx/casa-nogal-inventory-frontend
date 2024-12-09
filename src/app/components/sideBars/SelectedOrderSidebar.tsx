@@ -1,26 +1,35 @@
-import { Flex, Image, Spacer, Text, VStack } from "@chakra-ui/react";
-import Logo from "../../components/logo/Logo";
-import { useContext, useEffect, useMemo } from "react";
+import {
+  ButtonGroup,
+  Flex,
+  IconButton,
+  Image,
+  Spacer,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import Logo from "../logo/Logo";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
 import { useApiGetInfo } from "@/app/hooks/useApiCall";
-import { IComanda, IProduct } from "@/app/types";
+import { IComanda, IProduct, IProductList } from "@/app/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { IndefinteLoadingSpinner } from "../loading/LoadingSpinner";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
-export const SidebarLeft = () => {
-  const { selectedOrder } = useContext(selectedOrderContext);
+export const OrderItemsSidebar = () => {
+  const { selectedOrder, isEditingOrder } = useContext(selectedOrderContext);
+
+  const [editData, setEditData] = useState<IProductList[]>([]);
 
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError, refetch, status } = useApiGetInfo<IComanda>(
-    {
-      url: `/comandas/${selectedOrder}?populate=ProductList.producto&populate=Discounts`,
-      urlKey: ["selectedcomanda", selectedOrder],
-      queryProps: {
-        enabled: false,
-      },
+  const { data, isLoading, refetch } = useApiGetInfo<IComanda>({
+    url: `/comandas/${selectedOrder}?populate=ProductList.producto&populate=Discounts`,
+    urlKey: ["selectedcomanda", selectedOrder],
+    queryProps: {
+      enabled: false,
     },
-  );
+  });
 
   useEffect(() => {
     if (!!selectedOrder) {
@@ -32,6 +41,29 @@ export const SidebarLeft = () => {
       });
     }
   }, [selectedOrder, refetch, queryClient]);
+
+  useEffect(() => {
+    if (!data) return;
+    if (!isEditingOrder) return;
+
+    setEditData(data.ProductList);
+  }, [data, isEditingOrder]);
+
+  const handleEditProductquantity = useCallback(
+    (index: number, action: "inc" | "dec") => {
+      if (!editData) return;
+      setEditData((prev) => {
+        const aux = [...prev];
+        if (action === "inc") {
+          aux[index].quantity += 1;
+        } else {
+          aux[index].quantity -= 1;
+        }
+        return aux;
+      });
+    },
+    [editData],
+  );
 
   const subTotal = useMemo(() => {
     if (data) {
@@ -45,7 +77,6 @@ export const SidebarLeft = () => {
 
   const descuentos = useMemo(() => {
     //First order the discounts by its priority, the isFixedQuantity discount must be applied first
-    //
     if (data) {
       let auxSubTotal = subTotal;
       const sortedDiscounts = data?.Discounts.sort((a, b) => {
@@ -93,6 +124,8 @@ export const SidebarLeft = () => {
               key={`prroducto-lista-${index}`}
               product={product.producto}
               quantity={product.quantity}
+              handleEditProductQuantity={handleEditProductquantity}
+              index={index}
             />
           ))}
       </VStack>
@@ -132,28 +165,56 @@ const PriceDescriptionContainer: React.FC<PriceDescriptionContainerProps> = ({
 interface OrderProductContainerProps {
   product: IProduct;
   quantity: number;
+  index: number;
+  handleEditProductQuantity: (index: number, action: "inc" | "dec") => void;
 }
 const OrderProductContainer: React.FC<OrderProductContainerProps> = ({
   product,
   quantity,
+  handleEditProductQuantity,
+  index,
 }) => {
+  const { isEditingOrder } = useContext(selectedOrderContext);
+
   return (
     <Flex w="100%">
       <Image
-        src="http://localhost:1337/uploads/csm_no_image_d5c4ab1322_a5dd8749b2.jpg"
+        fallbackSrc="/image-not-found.png"
         alt="No se encontró la imagen"
-        height={"80px"}
+        height={"6rem"}
         p={2}
       />
-      <Flex flex={1} flexDir={"column"} justify={"center"} pr={4} gap={3}>
-        <Flex bgColor={"white"} boxShadow={"md"}>
+      <Flex flex={1} flexDir={"column"} justify={"center"} p={3} gap={3}>
+        <Flex bgColor={"white"} boxShadow={"md"} py={1} px={4}>
           {product.name}
         </Flex>
-        <Flex justify={"space-between"}>
-          <Text bgColor={"white"} boxShadow={"md"} px={4}>
+        <Flex justify={"space-between"} align={"center"}>
+          <Text bgColor={"white"} boxShadow={"md"} px={4} py={1}>
             {quantity} x $ {product.price}
           </Text>
-          <Text bgColor={"white"} boxShadow={"md"} px={4}>
+          {isEditingOrder && (
+            <ButtonGroup gap={3}>
+              <IconButton
+                aria-label="decrease quantity"
+                icon={<FaMinus />}
+                variant={"ghost"}
+                _hover={{
+                  bgColor: "green.400",
+                }}
+                onClick={() => handleEditProductQuantity(index, "dec")}
+              />
+              <IconButton
+                aria-label="increase quantity"
+                icon={<FaPlus />}
+                variant={"ghost"}
+                _hover={{
+                  bgColor: "red.300",
+                }}
+                onClick={() => handleEditProductQuantity(index, "inc")}
+              />
+            </ButtonGroup>
+          )}
+          <Text bgColor={"white"} boxShadow={"md"} px={4} py={1}>
             $ {quantity * product.price}
           </Text>
         </Flex>

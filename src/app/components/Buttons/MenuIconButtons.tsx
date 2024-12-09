@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button, GridItem, Text } from "@chakra-ui/react";
 type sizesVariant = "sm" | "md" | "lg";
-interface MenuIconButtonProps {
+type MenuIconButtonProps = {
   label: string;
   image?: string;
   size?: sizesVariant;
