@@ -17,9 +17,8 @@ import { IndefinteLoadingSpinner } from "../loading/LoadingSpinner";
 import { FaMinus, FaPlus } from "react-icons/fa";
 
 export const OrderItemsSidebar = () => {
-  const { selectedOrder, isEditingOrder } = useContext(selectedOrderContext);
-
-  const [editData, setEditData] = useState<IProductList[]>([]);
+  const { selectedOrder, isEditingOrder, setIsEditingOrder } =
+    useContext(selectedOrderContext);
 
   const queryClient = useQueryClient();
 
@@ -27,7 +26,7 @@ export const OrderItemsSidebar = () => {
     url: `/comandas/${selectedOrder}?populate=ProductList.producto&populate=Discounts`,
     urlKey: ["selectedcomanda", selectedOrder],
     queryProps: {
-      enabled: false,
+      enabled: !!selectedOrder,
     },
   });
 
@@ -43,33 +42,50 @@ export const OrderItemsSidebar = () => {
   }, [selectedOrder, refetch, queryClient]);
 
   useEffect(() => {
-    if (!data) return;
-    if (!isEditingOrder) return;
+    console.log("Cambios en data", data);
+  }, [data]);
 
-    setEditData(data.ProductList);
-  }, [data, isEditingOrder]);
+  useEffect(() => {
+    if (!data || isLoading) return;
 
-  const handleEditProductquantity = useCallback(
-    (index: number, action: "inc" | "dec") => {
-      if (!editData) return;
-      setEditData((prev) => {
-        const aux = [...prev];
-        if (action === "inc") {
-          aux[index].quantity += 1;
-        } else {
-          aux[index].quantity -= 1;
+    if (!isEditingOrder.isEditing) {
+      setIsEditingOrder((prev) => ({
+        ...prev,
+        editData: [],
+      }));
+    }
+
+    setIsEditingOrder((prev) => ({
+      ...prev,
+      editData: data.ProductList,
+    }));
+  }, [data, isLoading, setIsEditingOrder, isEditingOrder.isEditing]);
+
+  const handleEditProductquantity = (index: number, action: "inc" | "dec") => {
+    setIsEditingOrder((prev) => ({
+      ...prev,
+      editData: prev.editData.map((product, i) => {
+        if (i === index) {
+          return {
+            ...product,
+            quantity:
+              action === "inc"
+                ? product.quantity + 1
+                : product.quantity - 1 < 0
+                ? 0
+                : product.quantity - 1,
+          };
         }
-        return aux;
-      });
-    },
-    [editData],
-  );
+        return product;
+      }),
+    }));
+  };
 
   const subTotal = useMemo(() => {
     if (data) {
       return data.ProductList.reduce(
         (acc, product) => acc + product.producto.price * product.quantity,
-        0,
+        0
       );
     }
     return 0;
@@ -119,7 +135,18 @@ export const OrderItemsSidebar = () => {
       <VStack bgColor={"brand.yellow.light"} w="100%" height={"50%"} py={10}>
         {isLoading && <IndefinteLoadingSpinner />}
         {data &&
+          !isEditingOrder.isEditing &&
           data.ProductList.map((product, index) => (
+            <OrderProductContainer
+              key={`prroducto-lista-${index}`}
+              product={product.producto}
+              quantity={product.quantity}
+              handleEditProductQuantity={handleEditProductquantity}
+              index={index}
+            />
+          ))}
+        {isEditingOrder.isEditing &&
+          isEditingOrder.editData.map((product, index) => (
             <OrderProductContainer
               key={`prroducto-lista-${index}`}
               product={product.producto}
@@ -185,14 +212,30 @@ const OrderProductContainer: React.FC<OrderProductContainerProps> = ({
         p={2}
       />
       <Flex flex={1} flexDir={"column"} justify={"center"} p={3} gap={3}>
-        <Flex bgColor={"white"} boxShadow={"md"} py={1} px={4}>
+        <Flex
+          bgColor={"white"}
+          boxShadow={"md"}
+          py={1}
+          px={4}
+          textDecor={
+            isEditingOrder.isEditing && quantity === 0 ? "line-through" : ""
+          }
+        >
           {product.name}
         </Flex>
         <Flex justify={"space-between"} align={"center"}>
-          <Text bgColor={"white"} boxShadow={"md"} px={4} py={1}>
+          <Text
+            bgColor={"white"}
+            boxShadow={"md"}
+            px={4}
+            py={1}
+            textDecor={
+              isEditingOrder.isEditing && quantity === 0 ? "line-through" : ""
+            }
+          >
             {quantity} x $ {product.price}
           </Text>
-          {isEditingOrder && (
+          {isEditingOrder.isEditing && (
             <ButtonGroup gap={3}>
               <IconButton
                 aria-label="decrease quantity"
