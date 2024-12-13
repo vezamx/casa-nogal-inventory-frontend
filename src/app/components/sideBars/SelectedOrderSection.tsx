@@ -3,13 +3,83 @@ import React, { useState, Dispatch, FC, SetStateAction } from "react";
 import RestaurantMenu  from "./RestaurantMenu";
 import MenuIconButton from "../Buttons/MenuIconButtons";
 import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface SelectedOrderSectionProps {}
 const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
-  const { setIsEditingOrder, isEditingOrder } =
+  const { handleChangeisEditing, isEditingOrder, selectedOrder } =
     useContext(selectedOrderContext);
 
-  const handleChangeisEditing = () => setIsEditingOrder((prev) => !prev);
+  const handleSetEditingOrder = () => {
+    handleChangeisEditing(isEditingOrder.editData);
+  };
+
+  const toast = useToast();
+
+  const queryClient = useQueryClient();
+
+  const handleEditOrderRequest = useCallback(async () => {
+    console.log("Enviando cambios al backend");
+    console.log(
+      isEditingOrder.editData
+        ?.map((item) => ({
+          quantity: item.quantity,
+          producto: {
+            documentId: item.producto.documentId,
+          },
+        }))
+        .filter((item) => item.quantity > 0)
+    );
+
+    const execUpdate = async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/comandas/setProducts/${selectedOrder}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ProductList: isEditingOrder.editData
+              ?.map((item) => ({
+                quantity: item.quantity,
+                producto: {
+                  documentId: item.producto.documentId,
+                },
+              }))
+              .filter((item) => item.quantity > 0),
+          }),
+        }
+      );
+      if (!response.ok || response.status >= 400) {
+        console.error(response);
+        throw new Error("Error al enviar los cambios");
+      }
+    };
+
+    toast.promise(execUpdate(), {
+      loading: {
+        title: "Enviando cambios",
+        description: "Estamos enviando los cambios al servidor",
+      },
+      success: {
+        title: "Cambios enviados",
+        description: "Los cambios se han enviado correctamente",
+        duration: 1500,
+        onCloseComplete() {
+          handleChangeisEditing();
+          queryClient.refetchQueries({
+            queryKey: ["selectedcomanda", selectedOrder],
+          });
+        },
+      },
+      error: {
+        title: "Error al enviar los cambios",
+        description:
+          "Ha ocurrido un error al enviar los cambios, por favor intenta de nuevo",
+      },
+    });
+  }, [isEditingOrder.editData]);
 
 const SelectedOrderSection: FC<SelectedOrderSectionProps> = ({
   setSelectedOrder,
