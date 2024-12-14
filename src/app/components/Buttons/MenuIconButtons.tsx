@@ -5,6 +5,7 @@ type MenuIconButtonProps = {
   label: string;
   image?: string;
   size?: sizesVariant;
+  innerRef?: React.Ref<HTMLButtonElement>;
 } & React.ComponentProps<typeof Button>;
 
 const sizesMap = new Map<sizesVariant, number>([
@@ -17,16 +18,18 @@ const MenuIconButton: React.FC<MenuIconButtonProps> = ({
   label,
   image,
   size = "md",
+  innerRef,
   ...otherProperties
 }) => {
   return (
-    <GridItem colSpan={sizesMap.get(size)} m={3}>
+    <GridItem colSpan={sizesMap.get(size)} m={3} role="button">
       <Button
         variant="ghost"
         display={"flex"}
         bgColor={"brand.yellow.primary"}
         flexDir={"column"}
         _hover={{ bgColor: "brand.yellow.light" }}
+        ref={innerRef}
         h={"100%"}
         w={"100%"}
         p={3}

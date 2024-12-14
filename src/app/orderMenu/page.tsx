@@ -11,6 +11,7 @@ import { IComanda } from "../types";
 import { OperationsButtons } from "./components/OperationsButtons";
 import { ApiErrorDisplay } from "../components/errors/ErrorMessage";
 import { IndefinteLoadingSpinner } from "../components/loading/LoadingSpinner";
+import { API_HOOKS_QUERY_KEYS } from "@constants";
 
 export const viewport: Viewport = {
   themeColor: "black",
@@ -19,7 +20,7 @@ export const viewport: Viewport = {
 const Page = () => {
   const { data, isLoading, error } = useApiGetInfo<IComanda[]>({
     url: "/comandas",
-    urlKey: ["comandas"],
+    urlKey: [API_HOOKS_QUERY_KEYS.COMANDAS],
   });
 
   return (

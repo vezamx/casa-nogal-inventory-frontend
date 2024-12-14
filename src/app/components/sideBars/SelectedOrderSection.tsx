@@ -3,7 +3,7 @@ import { FC, useCallback, useContext } from "react";
 import MenuIconButton from "../Buttons/MenuIconButtons";
 import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
 import { useQueryClient } from "@tanstack/react-query";
-
+import { API_HOOKS_QUERY_KEYS } from "@constants";
 interface SelectedOrderSectionProps {}
 const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
   const { handleChangeisEditing, isEditingOrder, selectedOrder } =
@@ -18,18 +18,6 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
   const queryClient = useQueryClient();
 
   const handleEditOrderRequest = useCallback(async () => {
-    console.log("Enviando cambios al backend");
-    console.log(
-      isEditingOrder.editData
-        ?.map((item) => ({
-          quantity: item.quantity,
-          producto: {
-            documentId: item.producto.documentId,
-          },
-        }))
-        .filter((item) => item.quantity > 0)
-    );
-
     const execUpdate = async () => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/comandas/setProducts/${selectedOrder}`,
@@ -68,7 +56,7 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
         onCloseComplete() {
           handleChangeisEditing();
           queryClient.refetchQueries({
-            queryKey: ["selectedcomanda", selectedOrder],
+            queryKey: [API_HOOKS_QUERY_KEYS.SELECTED_COMANDA, selectedOrder],
           });
         },
       },
