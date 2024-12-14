@@ -1,11 +1,19 @@
 import { Grid } from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useState, Dispatch, FC, SetStateAction } from "react";
+import RestaurantMenu  from "./RestaurantMenu";
 import MenuIconButton from "../Buttons/MenuIconButtons";
 
-interface SelectedOrderSectionProps {
-  setSelectedOrder: Dispatch<SetStateAction<string>>;
-}
-const SelectedOrderSection = () => {
+const SelectedOrderSection: FC<SelectedOrderSectionProps> = ({
+  setSelectedOrder,
+}) => {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleClick = (buttonName: string) => {
+    if (buttonName === "RestaurantMenu") {
+      setShowMenu(true);
+    }
+  };
+
   return (
     <Grid
       as={"section"}
@@ -14,11 +22,25 @@ const SelectedOrderSection = () => {
       templateRows={"repeat(12, 1fr)"}
       mt={"10rem"}
     >
-      <MenuIconButton label="Pagar" image="/Pagar.svg" />
-      <MenuIconButton label="Dividir Cuenta" image="/dividirCuenta.svg" />
-      <MenuIconButton label="Añadir Producto" image="/addProduct.svg" />
-      <MenuIconButton label="Eliminar Producto" image="/eliminarProducto.svg" />
-      <MenuIconButton label="Menú" image="/Menu.svg" size="lg" />
+      {showMenu
+        ? ( <RestaurantMenu /> )
+        : (
+        <>
+          <MenuIconButton label="Pagar" image="/Pagar.svg" />
+          <MenuIconButton label="Dividir Cuenta" image="/dividirCuenta.svg" />
+          <MenuIconButton label="Añadir Producto" image="/addProduct.svg" />
+          <MenuIconButton
+            label="Eliminar Producto"
+            image="/eliminarProducto.svg"
+          />
+          <MenuIconButton
+            label="Menú"
+            image="/Menu.svg"
+            size="lg"
+            onClick={() => handleClick("RestaurantMenu")}
+          />
+        </>
+      )}
     </Grid>
   );
 };
