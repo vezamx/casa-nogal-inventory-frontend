@@ -1,3 +1,6 @@
+import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
+import { useApiGetInfo } from "@/app/hooks/useApiCall";
+import { IComanda, IProduct } from "@/app/types";
 import {
   ButtonGroup,
   Flex,
@@ -7,14 +10,12 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import Logo from "../logo/Logo";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
-import { useApiGetInfo } from "@/app/hooks/useApiCall";
-import { IComanda, IProduct, IProductList } from "@/app/types";
+import { API_HOOKS_QUERY_KEYS } from "@constants";
 import { useQueryClient } from "@tanstack/react-query";
-import { IndefinteLoadingSpinner } from "../loading/LoadingSpinner";
+import { useContext, useEffect, useMemo } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import { IndefinteLoadingSpinner } from "../loading/LoadingSpinner";
+import Logo from "../logo/Logo";
 
 export const OrderItemsSidebar = () => {
   const { selectedOrder, isEditingOrder, setIsEditingOrder } =
@@ -24,7 +25,7 @@ export const OrderItemsSidebar = () => {
 
   const { data, isLoading, refetch } = useApiGetInfo<IComanda>({
     url: `/comandas/${selectedOrder}?populate=ProductList.producto&populate=Discounts`,
-    urlKey: ["selectedcomanda", selectedOrder],
+    urlKey: [API_HOOKS_QUERY_KEYS.SELECTED_COMANDA, selectedOrder],
     queryProps: {
       enabled: !!selectedOrder,
     },
@@ -35,7 +36,7 @@ export const OrderItemsSidebar = () => {
       refetch();
     } else {
       queryClient.invalidateQueries({
-        queryKey: ["selectedcomanda"],
+        queryKey: [API_HOOKS_QUERY_KEYS.SELECTED_COMANDA, selectedOrder],
         refetchType: "none",
       });
     }
