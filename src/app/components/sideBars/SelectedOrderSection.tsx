@@ -71,7 +71,13 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
           "Ha ocurrido un error al enviar los cambios, por favor intenta de nuevo",
       },
     });
-  }, [isEditingOrder.editData]);
+  }, [
+    isEditingOrder.editData,
+    handleChangeisEditing,
+    queryClient,
+    selectedOrder,
+    toast,
+  ]);
 
   if(!AddMenuContext){
     console.error("AddMenuPageContext no está disponible.");
@@ -116,6 +122,12 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
           />
         </>
       )}
+      <MenuIconButton
+        label="Cancelar Comanda"
+        image="/cancelComanda.svg"
+        size="lg"
+        onClick={() => console.log("Cancelando comanda")}
+      />
 
       <MenuIconButton label="Menú" image="/Menu.svg" size="lg" />
     </Grid>
