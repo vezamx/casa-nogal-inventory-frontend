@@ -1,7 +1,10 @@
 "use client";
 import { YellowLine } from "@/app/components/yellowLine/YellowLine";
 import { Box, Flex } from "@chakra-ui/react";
+import { API_HOOKS_QUERY_KEYS } from "@constants";
 import { Viewport } from "next";
+import { ApiErrorDisplay } from "../components/errors/ErrorMessage";
+import { IndefinteLoadingSpinner } from "../components/loading/LoadingSpinner";
 import MenuBar from "../components/menuBar/MenuBar";
 import OrderListSection from "../components/sideBars/OrderListSection";
 import { OrderItemsSidebar } from "../components/sideBars/SelectedOrderSidebar";
@@ -9,9 +12,6 @@ import { SelectedOrderProvider } from "../context/SelectedOrderContext";
 import { useApiGetInfo } from "../hooks/useApiCall";
 import { IComanda } from "../types";
 import { OperationsButtons } from "./components/OperationsButtons";
-import { ApiErrorDisplay } from "../components/errors/ErrorMessage";
-import { IndefinteLoadingSpinner } from "../components/loading/LoadingSpinner";
-import { API_HOOKS_QUERY_KEYS } from "@constants";
 
 export const viewport: Viewport = {
   themeColor: "black",

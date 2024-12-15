@@ -4,7 +4,9 @@ import MenuIconButton from "../Buttons/MenuIconButtons";
 import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
 import { useQueryClient } from "@tanstack/react-query";
 import { API_HOOKS_QUERY_KEYS } from "@constants";
+
 interface SelectedOrderSectionProps {}
+
 const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
   const { handleChangeisEditing, isEditingOrder, selectedOrder } =
     useContext(selectedOrderContext);
@@ -66,7 +68,13 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
           "Ha ocurrido un error al enviar los cambios, por favor intenta de nuevo",
       },
     });
-  }, [isEditingOrder.editData]);
+  }, [
+    isEditingOrder.editData,
+    handleChangeisEditing,
+    queryClient,
+    selectedOrder,
+    toast,
+  ]);
 
   return (
     <Grid
@@ -101,6 +109,12 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
           />
         </>
       )}
+      <MenuIconButton
+        label="Cancelar Comanda"
+        image="/cancelComanda.svg"
+        size="lg"
+        onClick={() => console.log("Cancelando comanda")}
+      />
 
       <MenuIconButton label="Menú" image="/Menu.svg" size="lg" />
     </Grid>
