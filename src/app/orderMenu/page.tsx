@@ -1,7 +1,7 @@
 "use client";
 import { YellowLine } from "@/app/components/yellowLine/YellowLine";
 import { Box, Flex } from "@chakra-ui/react";
-import { API_HOOKS_QUERY_KEYS } from "@constants";
+import { API_HOOKS_QUERY_KEYS, COMANDA_STATUS } from "@constants";
 import { Viewport } from "next";
 import { ApiErrorDisplay } from "../components/errors/ErrorMessage";
 import { IndefinteLoadingSpinner } from "../components/loading/LoadingSpinner";
@@ -19,7 +19,7 @@ export const viewport: Viewport = {
 
 const Page = () => {
   const { data, isLoading, error } = useApiGetInfo<IComanda[]>({
-    url: "/comandas",
+    url: `/comandas?filters[comandaStatus][$eq]=${COMANDA_STATUS.OPEN}`,
     urlKey: [API_HOOKS_QUERY_KEYS.COMANDAS],
   });
 
