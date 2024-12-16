@@ -1,6 +1,5 @@
 import { useApiExecute } from "@/app/hooks/useApiCall";
 import { IComanda } from "@/app/types";
-import { API_HOOKS_QUERY_KEYS } from "@constants";
 import { WrapRequest } from "@/utils/utils";
 import {
   Button,
@@ -22,9 +21,22 @@ import {
   useBoolean,
   useToast,
 } from "@chakra-ui/react";
+import { API_HOOKS_QUERY_KEYS } from "@constants";
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useCallback, useEffect } from "react";
 import MenuIconButton from "../Buttons/MenuIconButtons";
+
+const RefComponent = forwardRef((props, ref) => {
+  return (
+    <MenuIconButton
+      label="Crear Comanda"
+      image="/Pagar.svg"
+      size="lg"
+      innerRef={ref}
+      {...props}
+    />
+  );
+});
 
 const OperationsSection: React.FC = () => {
   const toast = useToast();
@@ -88,19 +100,7 @@ const OperationsSection: React.FC = () => {
     mutate(
       WrapRequest({ wrappedBy: "data", data: { guests: totalComensales } })
     );
-  }, [toast]);
-
-  const RefComponent = forwardRef((props, ref) => {
-    return (
-      <MenuIconButton
-        label="Crear Comanda"
-        image="/Pagar.svg"
-        size="lg"
-        innerRef={ref}
-        {...props}
-      />
-    );
-  });
+  }, [mutate, totalComensales]);
 
   return (
     <Grid
@@ -141,14 +141,6 @@ const OperationsSection: React.FC = () => {
                   <NumberDecrementStepper />
                 </NumberInputStepper>
               </NumberInput>
-              {/* <Input
-                placeholder="Numero de comensales"
-                type="number"
-                aria-label="Numero de comensales"
-                onChange={(e) => setTotalComensales(Number(e.target.value))}
-                pattern="[0-9]*"
-                value={totalComensales}
-              /> */}
               <Button onClick={handleCreateOrder} colorScheme="teal">
                 Crear Comanda
               </Button>
@@ -156,30 +148,9 @@ const OperationsSection: React.FC = () => {
           </PopoverBody>
         </PopoverContent>
       </Popover>
-      {/* <Menu> */}
-      {/*   <MenuList> */}
-      {/*     <MenuIconButton */}
-      {/*       as={MenuButton} */}
-      {/*       size={"lg"} */}
-      {/*       label="Crear Comanda" */}
-      {/*       image="/Pagar.svg" */}
-      {/*       // onClick={handleCreateOrder} */}
-      {/*     /> */}
-      {/**/}
-      {/*     <MenuItem>Download</MenuItem> */}
-      {/*     <MenuItem>Create a Copy</MenuItem> */}
-      {/*     <MenuItem>Mark as Draft</MenuItem> */}
-      {/*     <MenuItem>Delete</MenuItem> */}
-      {/*     <MenuItem>Attend a Workshop</MenuItem> */}
-      {/*   </MenuList> */}
-      {/* </Menu> */}
+
       <MenuIconButton label="Corte Parcial" image="/corteParcial.svg" />
       <MenuIconButton label="Corte Total" image="/corteCaja.svg" />
-      <MenuIconButton
-        label="Cancelar cuenta"
-        image="/cancelComanda.svg"
-        size="lg"
-      />
     </Grid>
   );
 };
