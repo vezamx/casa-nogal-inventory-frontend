@@ -1,16 +1,27 @@
 import { Grid, useToast } from "@chakra-ui/react";
-import { FC, useCallback, useContext } from "react";
+import { FC, useCallback, useContext, useEffect, useRef } from "react";
 import MenuIconButton from "../Buttons/MenuIconButtons";
 import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
 import { useQueryClient } from "@tanstack/react-query";
+<<<<<<< HEAD
 import { API_HOOKS_QUERY_KEYS } from "@constants";
 import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
+=======
+import { API_HOOKS_QUERY_KEYS, COMANDA_STATUS } from "@constants";
+import { useApiExecute } from "@/app/hooks/useApiCall";
+import { IComanda } from "@/app/types";
+import { WrapRequest } from "@/utils/utils";
+>>>>>>> e248c86 (feat(comanda): added request to backend on cancel comanda)
 
 interface SelectedOrderSectionProps {}
 
 const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
-  const { handleChangeisEditing, isEditingOrder, selectedOrder } =
-    useContext(selectedOrderContext);
+  const {
+    handleChangeisEditing,
+    isEditingOrder,
+    selectedOrder,
+    setSelectedOrder,
+  } = useContext(selectedOrderContext);
 
   const handleSetEditingOrder = () => {
     handleChangeisEditing(isEditingOrder.editData);
@@ -21,6 +32,38 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
   const toast = useToast();
 
   const queryClient = useQueryClient();
+
+  const { mutate } = useApiExecute<IComanda>({
+    method: "PUT",
+    url: `/comandas/${selectedOrder}`,
+    urlKey: [API_HOOKS_QUERY_KEYS.UPDATE_COMANDA],
+    queryProps: {
+      onSuccess() {
+        toast.closeAll();
+        toast({
+          title: "Comanda cancelada",
+          description: "La comanda ha sido cancelada con éxito",
+          status: "success",
+          duration: 2000,
+        });
+        setTimeout(() => {
+          queryClient.refetchQueries({
+            queryKey: [API_HOOKS_QUERY_KEYS.COMANDAS],
+          });
+          setSelectedOrder("");
+        }, 2000);
+      },
+      onError() {
+        toast.closeAll();
+        toast({
+          title: "Error al cancelar la comanda",
+          description: "Ha ocurrido un error al cancelar la comanda",
+          status: "error",
+          duration: 200,
+        });
+      },
+    },
+  });
 
   const handleEditOrderRequest = useCallback(async () => {
     const execUpdate = async () => {
@@ -126,7 +169,21 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
         label="Cancelar Comanda"
         image="/cancelComanda.svg"
         size="lg"
-        onClick={() => console.log("Cancelando comanda")}
+        onClick={() => {
+          toast({
+            title: "Cancelando comanda",
+            description: "Espere un momento",
+            status: "info",
+            isClosable: false,
+            duration: null,
+          });
+          mutate(
+            WrapRequest({
+              wrappedBy: "data",
+              data: { comandaStatus: COMANDA_STATUS.CANCELED },
+            })
+          );
+        }}
       />
 
       <MenuIconButton label="Menú" image="/Menu.svg" size="lg" />
