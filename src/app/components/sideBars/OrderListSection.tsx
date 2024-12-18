@@ -15,7 +15,7 @@ const OrderListSection: React.FC<OrderListSectionProps> = ({ orderList }) => {
     setSelectedOrder(orderName);
   };
 
-  return (
+  return (    
     <Flex w="50%" as={"section"} flexDir={"column"} height="100%">
       <Text fontSize="xl" fontWeight="bold" mb={4}>
         Ordenes activas
