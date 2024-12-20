@@ -21,7 +21,7 @@ export const AddProductContextProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const [comandas, setComandas] = useState<any[]>([]); // funcion para agregar cuentas
+  const [comandas, setComandas] = useState<any[]>([]);
 
   return (
     <AddProductContext.Provider
@@ -34,4 +34,3 @@ export const AddProductContextProvider = ({
     </AddProductContext.Provider>
   );
 };
-//boton añardir

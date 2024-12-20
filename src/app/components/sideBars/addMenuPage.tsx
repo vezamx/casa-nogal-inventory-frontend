@@ -1,11 +1,4 @@
-import 
-  React,
-  {
-    useContext,
-    useState,
-    useEffect
-  }
-from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -18,11 +11,7 @@ import {
   InputRightElement,
   Text,
 } from "@chakra-ui/react";
-import {
-  FaArrowCircleLeft,
-  FaPlus,
-  FaSearch
-} from "react-icons/fa";
+import { FaArrowCircleLeft, FaPlus, FaSearch } from "react-icons/fa";
 import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
 
 const addMenuPage = () => {
@@ -41,6 +30,12 @@ const addMenuPage = () => {
       platillos: [
         { nombre: "Sopa de Tortilla", precio: 5.99 },
         { nombre: "Crema de Champiñones", precio: 4.99 },
+      ],
+    },
+    {
+      platillos: [
+        { nombre: "Espagutti", precio: 7.99 },
+        { nombre: "Ensalada de nopañ", precio: 1.99 },
       ],
     },
   ];
@@ -62,7 +57,9 @@ const addMenuPage = () => {
           platillo.nombre.toLowerCase().includes(value)
         ),
       }));
-      setFilteredMenu(filtered.filter((categoria) => categoria.platillos.length > 0));
+      setFilteredMenu(
+        filtered.filter((categoria) => categoria.platillos.length > 0)
+      );
     }
   };
 
@@ -75,14 +72,6 @@ const addMenuPage = () => {
 
   return (
     <Flex w="100vw" h="100%" direction="column" bg="gray.50">
-      <Box p={4}>
-        <FaArrowCircleLeft
-          className="cursor-pointer"
-          size="60"
-          title="Regresar a menú anterior"
-          onClick={() => setShowAddMenuPage(false)}
-        />
-      </Box>
 
       <Box px={4} pb={4}>
         <InputGroup size="md">
@@ -155,7 +144,11 @@ const addMenuPage = () => {
                     </Text>
                   </GridItem>
 
-                  <GridItem display="flex" justifyContent="flex-center" alignItems="center">
+                  <GridItem
+                    display="flex"
+                    justifyContent="flex-center"
+                    alignItems="center"
+                  >
                     <IconButton
                       aria-label="Agregar platillo"
                       icon={<FaPlus />}

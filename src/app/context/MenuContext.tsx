@@ -23,7 +23,7 @@ export const MenuContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [showMenu, setShowMenu] = React.useState<any[]>([]); // funcion para agregar cuentas
+  const [showMenu, setShowMenu] = React.useState<any[]>([]);
 
   return (
     <MenuContext.Provider
