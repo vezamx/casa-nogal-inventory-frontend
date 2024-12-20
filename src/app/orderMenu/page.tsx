@@ -3,7 +3,7 @@ import { YellowLine } from "@/app/components/yellowLine/YellowLine";
 import { Box, Flex } from "@chakra-ui/react";
 import { API_HOOKS_QUERY_KEYS, COMANDA_STATUS } from "@constants";
 import { Viewport } from "next";
-import { ApiErrorDisplay } from "../components/errors/ErrorMessage";
+import { ApiErrorDisplay } from "../components/errors/ApiErrorDisplay";
 import { IndefinteLoadingSpinner } from "../components/loading/LoadingSpinner";
 import MenuBar from "../components/menuBar/MenuBar";
 import OrderListSection from "../components/sideBars/OrderListSection";

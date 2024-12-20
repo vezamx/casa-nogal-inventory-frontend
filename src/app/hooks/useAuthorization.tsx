@@ -1,7 +1,7 @@
+import { UseAuthentitactionParams } from "@/types/types";
+import { useMutation } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { AuthorizationContext } from "../context/AuthorizationModalProvider";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { UseAuthentitactionParams } from "@/types/types";
 
 export const useAuthorization = () => {
   const context = useContext(AuthorizationContext);
@@ -9,7 +9,7 @@ export const useAuthorization = () => {
 
   if (!context) {
     throw new Error(
-      "useAuthorization must be used within an AuthorizationModalProvider",
+      "useAuthorization must be used within an AuthorizationModalProvider"
     );
   }
 
@@ -21,7 +21,7 @@ export const useAuthorization = () => {
     reset,
   } = useMutation({
     mutationFn: async (
-      requestObj: UseAuthentitactionParams & { token: string },
+      requestObj: UseAuthentitactionParams & { token: string }
     ) => {
       if (!token || !context.requestInfo) {
         throw new Error("Token or requestData not set");
@@ -33,7 +33,7 @@ export const useAuthorization = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       const data = await response.json();
       if (data.statusCode && data.statusCode > 400) {
