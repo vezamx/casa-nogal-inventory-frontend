@@ -1,68 +1,34 @@
-import React, {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-} from "react";
+import 
+  React,
+  {
+    useContext,
+    useState,
+    useEffect
+  }
+from "react";
 import {
   Box,
-  Button,
-  Center,
   Flex,
   Grid,
   GridItem,
   IconButton,
   Image,
   Input,
+  InputGroup,
+  InputRightElement,
   Text,
-  VStack,
 } from "@chakra-ui/react";
-import { IProduct } from "@/app/types";
-import { FaArrowCircleLeft, FaMinus, FaPlus } from "react-icons/fa";
+import {
+  FaArrowCircleLeft,
+  FaPlus,
+  FaSearch
+} from "react-icons/fa";
 import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
-import MenuIconButton from "../Buttons/MenuIconButtons";
-import { API_HOOKS_QUERY_KEYS } from "@/utils/constants";
-import { useApiGetInfo } from "@/app/hooks/useApiCall";
-
-interface IProductsContext {
-  setAddProducts: Dispatch<SetStateAction<IProduct[]>>;
-  setShowAddProducts: Dispatch<SetStateAction<boolean>>;
-  products: IProduct[];
-  showAddProductcs: boolean;
-}
-
-export const ProductsContext = createContext<IProductsContext | null>(null);
 
 const addMenuPage = () => {
   const AddMenuContext = useContext(AddMenuPageContext);
-
-  if (!AddMenuContext) {
-    console.log("Contexto addmenu no disponible");
-    return null;
-  }
-
-  const { setShowAddMenuPage } = AddMenuContext;
-
-  const categorias = [
-    "Categoría 1",
-    "Categoría 2",
-    "Categoría 3",
-    "Categoría 4",
-    "Categoría 5",
-    "Categoría 6",
-    "Categoría 7",
-    "Categoría 8",
-    "Categoría 9",
-    "Categoría 10",
-  ];
-
-  const { data, isLoading, refetch } = useApiGetInfo<IProduct>({
-    url: `/comandas/`,
-    urlKey: [API_HOOKS_QUERY_KEYS.PRODUCTS, AddMenuContext],
-    queryProps: {
-      enabled: !!AddMenuContext,
-    },
-  });
+  const [searchText, setSearchText] = useState("");
+  const [filteredMenu, setFilteredMenu] = useState([]);
 
   const menu = [
     {
@@ -77,148 +43,134 @@ const addMenuPage = () => {
         { nombre: "Crema de Champiñones", precio: 4.99 },
       ],
     },
-    {
-      platillos: [
-        { nombre: "Pasta Alfredo", precio: 12.99 },
-        { nombre: "Bistec a la Parrilla", precio: 15.99 },
-      ],
-    },
-    {
-      platillos: [
-        { nombre: "Camarones al Ajillo", precio: 16.99 },
-        { nombre: "Filete de Salmón", precio: 18.5 },
-      ],
-    },
-    {
-      platillos: [
-        { nombre: "Tacos al Pastor", precio: 9.99 },
-        { nombre: "Tacos de Barbacoa", precio: 10.5 },
-      ],
-    },
-    {
-      platillos: [
-        { nombre: "Hamburguesa Clásica", precio: 11.99 },
-        { nombre: "Hamburguesa BBQ", precio: 12.99 },
-      ],
-    },
-    {
-      platillos: [
-        { nombre: "Pizza Margarita", precio: 10.99 },
-        { nombre: "Pizza Pepperoni", precio: 11.99 },
-      ],
-    },
-    {
-      platillos: [
-        { nombre: "Cheesecake", precio: 6.5 },
-        { nombre: "Brownie con Helado", precio: 7.0 },
-      ],
-    },
-    {
-      platillos: [
-        { nombre: "Coca-Cola", precio: 2.5 },
-        { nombre: "Jugo Natural", precio: 3.5 },
-      ],
-    },
-    {
-      platillos: [
-        { nombre: "Café Americano", precio: 2.99 },
-        { nombre: "Cappuccino", precio: 3.99 },
-      ],
-    },
   ];
 
+  useEffect(() => {
+    setFilteredMenu(menu);
+  }, []);
+
+  const handleSearch = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchText(value);
+
+    if (value.trim() === "") {
+      setFilteredMenu(menu);
+    } else {
+      const filtered = menu.map((categoria) => ({
+        ...categoria,
+        platillos: categoria.platillos.filter((platillo) =>
+          platillo.nombre.toLowerCase().includes(value)
+        ),
+      }));
+      setFilteredMenu(filtered.filter((categoria) => categoria.platillos.length > 0));
+    }
+  };
+
+  if (!AddMenuContext) {
+    console.log("Contexto addmenu no disponible");
+    return null;
+  }
+
+  const { setShowAddMenuPage } = AddMenuContext;
+
   return (
-    <Flex w="100vw" h="100%">
-      <Box w="100%">
+    <Flex w="100vw" h="100%" direction="column" bg="gray.50">
+      <Box p={4}>
         <FaArrowCircleLeft
           className="cursor-pointer"
           size="60"
           title="Regresar a menú anterior"
           onClick={() => setShowAddMenuPage(false)}
         />
+      </Box>
 
-        <Box p={4} w="100%" flex="1">
-          <Grid
-            templateColumns={{
-              base: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-              lg: "repeat(5, 1fr)",
-            }}
-            gap={4}
-          >
-            {categorias.map((categoria, index) => (
-              <GridItem key={index}>
-                <MenuIconButton
-                  label={categoria}
-                  image=""
-                  onClick={() => alert(`Clic en ${categoria}`)}
-                />
-              </GridItem>
-            ))}
-          </Grid>
-        </Box>
+      <Box px={4} pb={4}>
+        <InputGroup size="md">
+          <Input
+            placeholder="Buscar..."
+            borderRadius="full"
+            bg="white"
+            boxShadow="sm"
+            value={searchText}
+            onChange={handleSearch}
+          />
+          <InputRightElement>
+            <IconButton
+              aria-label="Buscar"
+              icon={<FaSearch />}
+              size="sm"
+              bg="blue.300"
+              _hover={{ bg: "blue.400" }}
+              borderRadius="full"
+              color="white"
+            />
+          </InputRightElement>
+        </InputGroup>
+      </Box>
 
-        {/* Buscador */}
-        <Box px={4} pb={4}>
-          <Input placeholder="Buscar..." size="md" borderRadius="md" />
-        </Box>
-
-        <Box p={4} flex="1">
-          <Grid
-            templateColumns={{
-              base: "repeat(1, 1fr)",
-              md: "repeat(2, 1fr)",
-              lg: "repeat(4, 1fr)",
-            }}
-            gap={6}
-          >
-            {menu.map((categoria, index) =>
-              categoria.platillos.map((platillo, idx) => (
-                <GridItem
-                  key={`${index}-${idx}`}
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  p={4}
-                  boxShadow="md"
-                  bg="yellow.100"
+      <Box flex="1" p={4}>
+        <Grid
+          templateColumns={{
+            base: "repeat(1, 1fr)",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(3, 1fr)",
+          }}
+          gap={6}
+        >
+          {filteredMenu.map((categoria, index) =>
+            categoria.platillos.map((platillo, idx) => (
+              <GridItem
+                key={`${index}-${idx}`}
+                bg="yellow.300"
+                borderRadius="lg"
+                boxShadow="md"
+                p={4}
+              >
+                <Grid
+                  templateColumns="1fr 2fr"
+                  templateRows="repeat(3, 1fr)"
+                  gap={2}
+                  h="100%"
                 >
-                  <Flex>
+                  <GridItem rowSpan={3}>
                     <Image
-                      rounded="md"
-                      src={platillo.imagen || "/image-not-found.png"}
+                      src="/image-not-found.png"
                       alt={platillo.nombre}
+                      borderRadius="md"
                       boxSize="80px"
-                      mr={4}
+                      objectFit="cover"
+                      bg="white"
                     />
-                    <Box flex="1">
-                      <Text fontWeight="bold" fontSize="md">
-                        {platillo.nombre}
-                      </Text>
-                      <Text fontSize="sm" color="gray.600">
-                        ${platillo.precio.toFixed(2)}
-                      </Text>
-                      <Flex mt={2} alignItems="center">
-                        <IconButton
-                          aria-label="Eliminar"
-                          icon={<FaMinus />}
-                          size="sm"
-                          colorScheme="red"
-                          mr={2}
-                        />
-                        <IconButton
-                          aria-label="Agregar"
-                          icon={<FaPlus />}
-                          size="sm"
-                          colorScheme="yellow"
-                        />
-                      </Flex>
-                    </Box>
-                  </Flex>
-                </GridItem>
-              ))
-            )}
-          </Grid>
-        </Box>
+                  </GridItem>
+
+                  <GridItem>
+                    <Text fontWeight="bold" fontSize="md" isTruncated>
+                      {platillo.nombre}
+                    </Text>
+                  </GridItem>
+
+                  <GridItem>
+                    <Text fontSize="sm" color="gray.700">
+                      ${platillo.precio.toFixed(2)}
+                    </Text>
+                  </GridItem>
+
+                  <GridItem display="flex" justifyContent="flex-center" alignItems="center">
+                    <IconButton
+                      aria-label="Agregar platillo"
+                      icon={<FaPlus />}
+                      size="sm"
+                      bg="yellow.400"
+                      color="white"
+                      _hover={{ bg: "yellow.500" }}
+                      borderRadius="full"
+                    />
+                  </GridItem>
+                </Grid>
+              </GridItem>
+            ))
+          )}
+        </Grid>
       </Box>
     </Flex>
   );
