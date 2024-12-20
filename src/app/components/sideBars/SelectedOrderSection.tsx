@@ -3,20 +3,13 @@ import { FC, useCallback, useContext, useEffect, useRef } from "react";
 import MenuIconButton from "../Buttons/MenuIconButtons";
 import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
 import { useQueryClient } from "@tanstack/react-query";
-<<<<<<< HEAD
 import { API_HOOKS_QUERY_KEYS } from "@constants";
 import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
-=======
-import { API_HOOKS_QUERY_KEYS, COMANDA_STATUS } from "@constants";
+// import { API_HOOKS_QUERY_KEYS, COMANDA_STATUS } from "@constants";
 import { useApiExecute } from "@/app/hooks/useApiCall";
 import { IComanda } from "@/app/types";
 import { WrapRequest } from "@/utils/utils";
-<<<<<<< HEAD
->>>>>>> e248c86 (feat(comanda): added request to backend on cancel comanda)
-=======
-// import { API_HOOKS_QUERY_KEYS } from "@constants";
-import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
->>>>>>> bac2bc8 (feat/menuPage hidden buttons, next step show the menu buttons, and arrow back)
+// import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
 
 interface SelectedOrderSectionProps {}
 

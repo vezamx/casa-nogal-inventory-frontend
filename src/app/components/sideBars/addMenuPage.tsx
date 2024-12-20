@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, SetStateAction, Dispatch, createContext } from "react";
 import {
   Box,
   Flex,
@@ -13,11 +13,9 @@ import {
 } from "@chakra-ui/react";
 import { FaArrowCircleLeft, FaPlus, FaSearch } from "react-icons/fa";
 import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
-import React, { createContext, Dispatch, SetStateAction } from 'react';
-import { YellowLine } from '../yellowLine/YellowLine';
-import { Box, Flex } from '@chakra-ui/react';
+// import { YellowLine } from '../yellowLine/YellowLine';
 // import { Viewport } from 'next';
-import MenuBar from '../../components/menuBar/MenuBar';
+// import MenuBar from '../../components/menuBar/MenuBar';
 import { IProduct } from '@/app/types';
 
 interface IProductsContext {
