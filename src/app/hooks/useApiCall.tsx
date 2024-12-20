@@ -24,7 +24,13 @@ export const useApiGetInfo = <T,>(props: ApiCallProps) => {
     queryKey: props.urlKey,
     queryFn: async () => {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api${props.url}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api${props.url}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${window.localStorage.getItem("qid")}`,
+          },
+        }
       );
       const data = await response.json();
 
@@ -50,7 +56,7 @@ interface ApiOperationProps {
     onSuccess?: (data: unknown) => void;
     onError?: (error: Error) => void;
   };
-  wrappedBy?: string;
+  wrappedBy?: string | null;
 }
 
 //* This hook is used to make a POST, PUT or DELETE request to the API
@@ -89,6 +95,8 @@ export const useApiExecute = <T,>(props: ApiOperationProps) => {
       if (!response.ok || response.status >= 400) {
         throw new Error(data.message || "Something went wrong");
       }
+
+      if (props.wrappedBy === null) return data;
 
       if (!props.wrappedBy) return data["data"];
 
