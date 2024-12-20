@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useContext, useState, useEffect } from "react";
 import {
   Box,
@@ -14,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { FaArrowCircleLeft, FaPlus, FaSearch } from "react-icons/fa";
 import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
-=======
 import React, { createContext, Dispatch, SetStateAction } from 'react';
 import { YellowLine } from '../yellowLine/YellowLine';
 import { Box, Flex } from '@chakra-ui/react';
@@ -30,7 +28,6 @@ interface IProductsContext {
 }
 
 export const ProductsContext = createContext<IProductsContext | null>(null);
->>>>>>> bac2bc8 (feat/menuPage hidden buttons, next step show the menu buttons, and arrow back)
 
 const addMenuPage = () => {
   const AddMenuContext = useContext(AddMenuPageContext);
@@ -89,7 +86,6 @@ const addMenuPage = () => {
   const { setShowAddMenuPage } = AddMenuContext;
 
   return (
-<<<<<<< HEAD
     <Flex w="100vw" h="100%" direction="column" bg="gray.50">
 
       <Box px={4} pb={4}>
@@ -184,25 +180,6 @@ const addMenuPage = () => {
           )}
         </Grid>
       </Box>
-=======
-    <Flex
-      w="100vw"
-      h="100%"
-    >
-      {/* <Box
-        w="80%"
-        className='bg-gray-100'
-      >
-        <Box>
-          <MenuBar menuButton />
-        </Box>
-        <Box
-          className='w-full flex flex-end'
-        >
-          <YellowLine />
-        </Box>
-      </Box> */}
->>>>>>> bac2bc8 (feat/menuPage hidden buttons, next step show the menu buttons, and arrow back)
     </Flex>
   );
 };
