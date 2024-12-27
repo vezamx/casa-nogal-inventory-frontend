@@ -16,7 +16,6 @@ import { AddMenuContextProvider, AddMenuPageContext } from "../context/AddMenuPa
 import AddMenuPage from "@/app/components/sideBars/addMenuPage";
 import { useContext } from "react";
 
-
 export const viewport: Viewport = {
   themeColor: "black",
 };
