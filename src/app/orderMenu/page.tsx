@@ -51,7 +51,7 @@ const PageContent = ({ data }: { data: IComanda[] }) => {
     </Box>
   );
 };
-
+ 
 const Page = () => {
   const { data, isLoading, error } = useApiGetInfo<IComanda[]>({
     url: `/comandas?filters[comandaStatus][$eq]=${COMANDA_STATUS.OPEN}`,

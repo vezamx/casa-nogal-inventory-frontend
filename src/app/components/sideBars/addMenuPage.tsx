@@ -13,10 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { FaArrowCircleLeft, FaPlus, FaSearch } from "react-icons/fa";
 import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
-// import { YellowLine } from '../yellowLine/YellowLine';
-// import { Viewport } from 'next';
-// import MenuBar from '../../components/menuBar/MenuBar';
-import { IProduct } from '@/app/types';
 
 interface IProductsContext {
   setAddProducts: Dispatch<SetStateAction<IProduct[]>>;

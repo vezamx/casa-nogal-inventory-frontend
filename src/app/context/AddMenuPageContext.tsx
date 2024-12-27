@@ -15,7 +15,6 @@ interface IAddMenuPageContext {
   products: IProduct[];
   //showAddProductcs: boolean;
   showAddMenuPage: boolean;
-  
 }
 
 export const AddMenuPageContext = createContext<IAddMenuPageContext | null>(null);
