@@ -2,7 +2,8 @@ import { Grid, useToast } from "@chakra-ui/react";
 import { FC, useCallback, useContext, useEffect, useRef } from "react";
 import MenuIconButton from "../Buttons/MenuIconButtons";
 import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query
+import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
 import { API_HOOKS_QUERY_KEYS, COMANDA_STATUS } from "@constants";
 import { useApiExecute } from "@/app/hooks/useApiCall";
 import { IComanda } from "@/app/types";
@@ -21,6 +22,8 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
   const handleSetEditingOrder = () => {
     handleChangeisEditing(isEditingOrder.editData);
   };
+
+  const AddMenuContext = useContext(AddMenuPageContext);
 
   const toast = useToast();
 
@@ -115,6 +118,12 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
     toast,
   ]);
 
+  if(!AddMenuContext){
+    console.error("AddMenuPageContext no está disponible.");
+    return null;
+  }
+  const { setShowAddMenuPage } = AddMenuContext;
+
   return (
     <Grid
       as={"section"}
@@ -125,7 +134,11 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
     >
       <MenuIconButton label="Pagar" image="/Pagar.svg" />
       <MenuIconButton label="Dividir Cuenta" image="/dividirCuenta.svg" />
-      <MenuIconButton label="Añadir Producto" image="/addProduct.svg" />
+      <MenuIconButton
+        label="Añadir Producto"
+        image="/addProduct.svg"
+        onClick={() => setShowAddMenuPage(true)}
+      />
       {!isEditingOrder.isEditing ? (
         <MenuIconButton
           label={"Editar Comanda"}
