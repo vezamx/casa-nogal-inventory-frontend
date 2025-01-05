@@ -17,7 +17,7 @@ import {
   Tfoot,
   Th,
   Thead,
-  Tr
+  Tr,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -26,13 +26,12 @@ const Inventory = () => {
   const [showStock, setShowStock] = useState(false);
 
   const showFormProduct = (addNewproduct: boolean) => {
-    console.log(addNewproduct)
+    console.log(addNewproduct);
     setAddNewProduct(!addNewproduct);
     setShowStock(false);
   };
 
   const showFormStock = (showStock: boolean) => {
-    console.log(showStock)
     setShowStock(!showStock);
     setAddNewProduct(false);
   };
@@ -96,7 +95,9 @@ const Inventory = () => {
             <TableContainer>
               <Table variant="simple">
                 <TableCaption>
-                  <Text fontSize='2xl' as='b'>Stock Actual</Text>
+                  <Text fontSize="2xl" as="b">
+                    Stock Actual
+                  </Text>
                 </TableCaption>
                 <Thead>
                   <Tr>
@@ -116,14 +117,14 @@ const Inventory = () => {
                     <Td>Vegetales del norte</Td>
                   </Tr>
                   <Tr>
-                  <Td>Cebolla</Td>
+                    <Td>Cebolla</Td>
                     <Td>10</Td>
                     <Td>KG</Td>
                     <Td>Tomate Morada</Td>
                     <Td>Vegetales del norte</Td>
                   </Tr>
                   <Tr>
-                  <Td>Mayonesa</Td>
+                    <Td>Mayonesa</Td>
                     <Td>20</Td>
                     <Td>Latas</Td>
                     <Td>Lata 4.8Kg</Td>
@@ -132,7 +133,7 @@ const Inventory = () => {
                 </Tbody>
                 <Tfoot>
                   <Tr>
-                  <Td>Vaso coctyelero</Td>
+                    <Td>Vaso coctyelero</Td>
                     <Td>15</Td>
                     <Td>Cajas</Td>
                     <Td>Vaso de 255ML</Td>

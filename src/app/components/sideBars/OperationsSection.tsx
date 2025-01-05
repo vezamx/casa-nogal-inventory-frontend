@@ -151,6 +151,7 @@ const OperationsSection: React.FC = () => {
 
       <MenuIconButton label="Corte Parcial" image="/corteParcial.svg" />
       <MenuIconButton label="Corte Total" image="/corteCaja.svg" />
+      <MenuIconButton label="Menú" image="/Menu.svg" size="lg" />
     </Grid>
   );
 };

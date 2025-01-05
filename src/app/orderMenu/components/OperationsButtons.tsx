@@ -5,7 +5,7 @@ import { FC, useContext } from "react";
 
 interface OperationsButtonsProps {}
 
-export const OperationsButtons: FC<OperationsButtonsProps> = (props) => {
+export const OperationsButtons: FC<OperationsButtonsProps> = () => {
   const { selectedOrder } = useContext(selectedOrderContext);
   return (
     <>{!!selectedOrder ? <SelectedOrderSection /> : <OperationsSection />}</>

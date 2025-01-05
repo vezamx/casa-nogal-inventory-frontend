@@ -1,29 +1,17 @@
-import {
-  Input,
-  InputGroup,
-  InputRightAddon,
-  IconButton,
-  Flex,
-} from "@chakra-ui/react";
-import { FaSearch, FaChevronLeft } from "react-icons/fa";
-import { useContext } from "react";
+import { IconButton, Flex } from "@chakra-ui/react";
+import { FaChevronLeft } from "react-icons/fa";
+import { FC, useContext } from "react";
 import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
 
-interface IYellowLineProps {
-  isInAddMenuPage?: boolean;
-}
+interface IYellowLineProps {}
 
-export const YellowLine = ({ isInAddMenuPage }: IYellowLineProps) => {
-  const AddMenuPage = useContext(AddMenuPageContext);
-
-  if (!AddMenuPage) {
-    throw new Error("AddMenuPageContext no está disponible.");
-  }
-
-  const { setShowAddMenuPage } = AddMenuPage;
+export const YellowLine: FC<IYellowLineProps> = ({}) => {
+  const { setShowAddMenuPage, showAddMenuPage, setProducts } =
+    useContext(AddMenuPageContext);
 
   const handleBackClick = () => {
     setShowAddMenuPage(false);
+    setProducts([]);
   };
 
   return (
@@ -35,7 +23,7 @@ export const YellowLine = ({ isInAddMenuPage }: IYellowLineProps) => {
       justifyContent="space-between"
       px={4}
     >
-      {isInAddMenuPage && (
+      {showAddMenuPage && (
         <IconButton
           aria-label="Volver"
           icon={<FaChevronLeft />}
@@ -44,22 +32,6 @@ export const YellowLine = ({ isInAddMenuPage }: IYellowLineProps) => {
           _hover={{ bg: "gray.500" }}
           onClick={handleBackClick}
         />
-      )}
-
-      {!isInAddMenuPage && (
-      <Flex w="100%" justifyContent="flex-end" height="100%">
-        <InputGroup width="30%" height="100%" mt="10px">
-          <Input
-            placeholder="Buscar"
-            bgColor="white"
-            h="70%"
-            borderRadius={20}
-          />
-          <InputRightAddon h="70%" borderRightRadius={20} bg="blue.400">
-            <FaSearch />
-          </InputRightAddon>
-        </InputGroup>
-      </Flex>
       )}
     </Flex>
   );

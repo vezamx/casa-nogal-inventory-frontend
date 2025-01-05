@@ -14,8 +14,7 @@ import { API_HOOKS_QUERY_KEYS } from "@constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useMemo } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { IndefinteLoadingSpinner } from "../loading/LoadingSpinner";
-import Logo from "../logo/Logo";
+import { IndefinteLoadingSpinner } from "@/app/components/loading/LoadingSpinner";
 
 export const OrderItemsSidebar = () => {
   const { selectedOrder, isEditingOrder, setIsEditingOrder } =
@@ -41,10 +40,6 @@ export const OrderItemsSidebar = () => {
       });
     }
   }, [selectedOrder, refetch, queryClient]);
-
-  useEffect(() => {
-    console.log("Cambios en data", data);
-  }, [data]);
 
   useEffect(() => {
     if (!data || isLoading) return;
@@ -84,6 +79,7 @@ export const OrderItemsSidebar = () => {
 
   const subTotal = useMemo(() => {
     if (data) {
+      console.log(data);
       return data.ProductList.reduce(
         (acc, product) => acc + product.producto.price * product.quantity,
         0
@@ -93,7 +89,6 @@ export const OrderItemsSidebar = () => {
   }, [data]);
 
   const descuentos = useMemo(() => {
-    //First order the discounts by its priority, the isFixedQuantity discount must be applied first
     if (data) {
       let auxSubTotal = subTotal;
       const sortedDiscounts = data?.Discounts.sort((a, b) => {
@@ -124,15 +119,7 @@ export const OrderItemsSidebar = () => {
   }, [subTotal, descuentos]);
 
   return (
-    <Flex
-      as={"aside"}
-      gap={4}
-      h="100vh"
-      w="30%"
-      className="bg-customYellow -screen  min-w-screen flex flex-col items-center  "
-      p={4}
-    >
-      <Logo className="object-cover" width={200} height={200} />
+    <>
       <VStack bgColor={"brand.yellow.light"} w="100%" height={"50%"} py={10}>
         {isLoading && <IndefinteLoadingSpinner />}
         {data &&
@@ -154,6 +141,7 @@ export const OrderItemsSidebar = () => {
               quantity={product.quantity}
               handleEditProductQuantity={handleEditProductquantity}
               index={index}
+              isEditing={isEditingOrder.isEditing}
             />
           ))}
       </VStack>
@@ -170,7 +158,7 @@ export const OrderItemsSidebar = () => {
         <Spacer />
         <PriceDescriptionContainer title="Total" price={total} />
       </Flex>
-    </Flex>
+    </>
   );
 };
 
@@ -195,15 +183,16 @@ interface OrderProductContainerProps {
   quantity: number;
   index: number;
   handleEditProductQuantity: (index: number, action: "inc" | "dec") => void;
+  isEditing?: boolean;
 }
-const OrderProductContainer: React.FC<OrderProductContainerProps> = ({
+
+export const OrderProductContainer: React.FC<OrderProductContainerProps> = ({
   product,
   quantity,
   handleEditProductQuantity,
   index,
+  isEditing = false,
 }) => {
-  const { isEditingOrder } = useContext(selectedOrderContext);
-
   return (
     <Flex w="100%">
       <Image
@@ -218,9 +207,7 @@ const OrderProductContainer: React.FC<OrderProductContainerProps> = ({
           boxShadow={"md"}
           py={1}
           px={4}
-          textDecor={
-            isEditingOrder.isEditing && quantity === 0 ? "line-through" : ""
-          }
+          textDecor={isEditing && quantity === 0 ? "line-through" : ""}
         >
           {product.name}
         </Flex>
@@ -230,13 +217,11 @@ const OrderProductContainer: React.FC<OrderProductContainerProps> = ({
             boxShadow={"md"}
             px={4}
             py={1}
-            textDecor={
-              isEditingOrder.isEditing && quantity === 0 ? "line-through" : ""
-            }
+            textDecor={isEditing && quantity === 0 ? "line-through" : ""}
           >
             {quantity} x $ {product.price}
           </Text>
-          {isEditingOrder.isEditing && (
+          {isEditing && (
             <ButtonGroup gap={3}>
               <IconButton
                 aria-label="decrease quantity"

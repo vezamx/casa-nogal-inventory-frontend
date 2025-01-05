@@ -18,12 +18,13 @@ export default function Home() {
     url: "/auth/local",
     method: "POST",
     urlKey: ["login"],
+    options: { auth: false },
     wrappedBy: null,
     queryProps: {
       onSuccess(data) {
         const { jwt } = data as { jwt: string };
 
-        window.localStorage.setItem("qid", jwt);
+        window.sessionStorage.setItem("qid", jwt);
         router.replace("/orderMenu");
       },
       onError(error) {
@@ -47,7 +48,7 @@ export default function Home() {
   }, []);
 
   const token = useMemo(() => {
-    return window.localStorage.getItem("qid");
+    return window.sessionStorage.getItem("qid");
   }, []);
 
   if (token) {

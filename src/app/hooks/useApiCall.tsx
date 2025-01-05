@@ -28,7 +28,7 @@ export const useApiGetInfo = <T,>(props: ApiCallProps) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${window.localStorage.getItem("qid")}`,
+            Authorization: `Bearer ${window.sessionStorage.getItem("qid")}`,
           },
         }
       );
@@ -52,6 +52,9 @@ interface ApiOperationProps {
   method: "POST" | "PUT" | "DELETE";
   url: string;
   urlKey: string[];
+  options?: {
+    auth?: boolean;
+  };
   queryProps?: {
     onSuccess?: (data: unknown) => void;
     onError?: (error: Error) => void;
@@ -77,6 +80,7 @@ interface ApiOperationProps {
 // Example: mutate(WrapRequest({ wrappedBy: "data", data: { guests: totalComensales } }));
 
 export const useApiExecute = <T,>(props: ApiOperationProps) => {
+  const { auth } = props.options || { auth: true };
   const requestProps = useMutation<T, Error, Record<string, any>>({
     mutationKey: props.urlKey,
     mutationFn: async (body: Record<string, any>) => {
@@ -84,9 +88,14 @@ export const useApiExecute = <T,>(props: ApiOperationProps) => {
         `${process.env.NEXT_PUBLIC_API_URL}/api${props.url}`,
         {
           method: props.method,
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: auth
+            ? {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${window.sessionStorage.getItem("qid")}`,
+              }
+            : {
+                "Content-Type": "application/json",
+              },
           body: JSON.stringify(body),
         }
       );

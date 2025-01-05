@@ -1,20 +1,23 @@
 "use client";
+import AddMenuPage from "@/app/components/sideBars/addMenuPage";
 import { YellowLine } from "@/app/components/yellowLine/YellowLine";
 import { Box, Flex } from "@chakra-ui/react";
 import { API_HOOKS_QUERY_KEYS, COMANDA_STATUS } from "@constants";
 import { Viewport } from "next";
+import { useContext } from "react";
 import { ApiErrorDisplay } from "../components/errors/ApiErrorDisplay";
 import { IndefinteLoadingSpinner } from "../components/loading/LoadingSpinner";
 import MenuBar from "../components/menuBar/MenuBar";
 import OrderListSection from "../components/sideBars/OrderListSection";
-import { OrderItemsSidebar } from "../components/sideBars/SelectedOrderSidebar";
+import { ProductsSidebar } from "../components/sideBars/ProductsSidebar/ProductsSidebar";
+import {
+  AddMenuContextProvider,
+  AddMenuPageContext,
+} from "../context/AddMenuPageContext";
 import { SelectedOrderProvider } from "../context/SelectedOrderContext";
 import { useApiGetInfo } from "../hooks/useApiCall";
 import { IComanda } from "../types";
 import { OperationsButtons } from "./components/OperationsButtons";
-import { AddMenuContextProvider, AddMenuPageContext } from "../context/AddMenuPageContext";
-import AddMenuPage from "@/app/components/sideBars/addMenuPage";
-import { useContext } from "react";
 
 export const viewport: Viewport = {
   themeColor: "black",
@@ -27,7 +30,7 @@ const PageContent = ({ data }: { data: IComanda[] }) => {
     throw new Error("AddMenuPageContext no está disponible.");
   }
 
-  const { showAddMenuPage, setShowAddMenuPage } = addMenuContext;
+  const { showAddMenuPage } = addMenuContext;
 
   return (
     <Box w={"80%"} className="bg-gray-100">
@@ -35,7 +38,7 @@ const PageContent = ({ data }: { data: IComanda[] }) => {
         <MenuBar menuButton />
       </div>
       <div className="w-full flex flex-end">
-        <YellowLine isInAddMenuPage={showAddMenuPage} />
+        <YellowLine />
       </div>
       <Flex as={"main"} w="100%" className="h-5/6" p={8} gap={6}>
         {showAddMenuPage ? (
@@ -50,7 +53,7 @@ const PageContent = ({ data }: { data: IComanda[] }) => {
     </Box>
   );
 };
- 
+
 const Page = () => {
   const { data, isLoading, error } = useApiGetInfo<IComanda[]>({
     url: `/comandas?filters[comandaStatus][$eq]=${COMANDA_STATUS.OPEN}`,
@@ -59,14 +62,14 @@ const Page = () => {
 
   return (
     <Flex w={"100vw"} height="100dvh" width={"100dvw"} margin={0} p={0}>
-      <SelectedOrderProvider>
-        <AddMenuContextProvider>
+      <AddMenuContextProvider>
+        <SelectedOrderProvider>
           {isLoading && <IndefinteLoadingSpinner />}
-          {error && <ApiErrorDisplay message={error.message} />}
+          {error && <ApiErrorDisplay errorCode={500} />}
           {data && <PageContent data={data} />}
-          <OrderItemsSidebar />
-        </AddMenuContextProvider>
-      </SelectedOrderProvider>
+          <ProductsSidebar />
+        </SelectedOrderProvider>
+      </AddMenuContextProvider>
     </Flex>
   );
 };

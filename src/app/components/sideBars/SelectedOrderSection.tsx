@@ -4,10 +4,15 @@ import MenuIconButton from "../Buttons/MenuIconButtons";
 import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
 import { useQueryClient } from "@tanstack/react-query";
 import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
-import { API_HOOKS_QUERY_KEYS, COMANDA_STATUS } from "@constants";
+import { selectedOrderContext } from "@/app/context/SelectedOrderContext";
 import { useApiExecute } from "@/app/hooks/useApiCall";
 import { IComanda } from "@/app/types";
 import { WrapRequest } from "@/utils/utils";
+import { Grid, useToast } from "@chakra-ui/react";
+import { API_HOOKS_QUERY_KEYS, COMANDA_STATUS } from "@constants";
+import { useQueryClient } from "@tanstack/react-query";
+import { FC, useCallback, useContext } from "react";
+import MenuIconButton from "../Buttons/MenuIconButtons";
 
 interface SelectedOrderSectionProps {}
 
@@ -69,6 +74,7 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("qid")}`,
           },
           body: JSON.stringify({
             ProductList: isEditingOrder.editData
@@ -118,7 +124,7 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
     toast,
   ]);
 
-  if(!AddMenuContext){
+  if (!AddMenuContext) {
     console.error("AddMenuPageContext no está disponible.");
     return null;
   }
@@ -181,8 +187,6 @@ const SelectedOrderSection: FC<SelectedOrderSectionProps> = () => {
           );
         }}
       />
-
-      <MenuIconButton label="Menú" image="/Menu.svg" size="lg" />
     </Grid>
   );
 };

@@ -8,7 +8,7 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const token = useMemo(() => {
-    return window.localStorage.getItem("qid");
+    return window.sessionStorage.getItem("qid");
   }, []);
 
   if (!token)

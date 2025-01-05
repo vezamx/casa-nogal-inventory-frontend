@@ -1,4 +1,6 @@
-import React, { useContext, useState, useEffect, SetStateAction, Dispatch, createContext } from "react";
+import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
+import { useApiGetInfo } from "@/app/hooks/useApiCall";
+import { IProduct } from "@/app/types";
 import {
   Box,
   Flex,
@@ -11,77 +13,65 @@ import {
   InputRightElement,
   Text,
 } from "@chakra-ui/react";
-import { FaArrowCircleLeft, FaPlus, FaSearch } from "react-icons/fa";
-import { AddMenuPageContext } from "@/app/context/AddMenuPageContext";
-
-interface IProductsContext {
-  setAddProducts: Dispatch<SetStateAction<IProduct[]>>;
-  setShowAddProducts: Dispatch<SetStateAction<boolean>>;
-  products: IProduct[];
-  showAddProductcs: boolean;
-}
-
-export const ProductsContext = createContext<IProductsContext | null>(null);
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { FaPlus } from "react-icons/fa";
+import { FaX } from "react-icons/fa6";
+import { ApiErrorDisplay } from "../errors/ApiErrorDisplay";
+import { IndefinteLoadingSpinner } from "../loading/LoadingSpinner";
 
 const addMenuPage = () => {
-  const AddMenuContext = useContext(AddMenuPageContext);
   const [searchText, setSearchText] = useState("");
-  const [filteredMenu, setFilteredMenu] = useState([]);
+  const [debouncedSearchText, setDebouncedSearchText] = useState("");
 
-  const menu = [
-    {
-      platillos: [
-        { nombre: "Ensalada César", precio: 8.99 },
-        { nombre: "Bruschetta", precio: 6.5 },
-      ],
-    },
-    {
-      platillos: [
-        { nombre: "Sopa de Tortilla", precio: 5.99 },
-        { nombre: "Crema de Champiñones", precio: 4.99 },
-      ],
-    },
-    {
-      platillos: [
-        { nombre: "Espagutti", precio: 7.99 },
-        { nombre: "Ensalada de nopañ", precio: 1.99 },
-      ],
-    },
-  ];
+  const { products, setProducts } = useContext(AddMenuPageContext);
 
-  useEffect(() => {
-    setFilteredMenu(menu);
-  }, []);
+  const { data, isLoading, error } = useApiGetInfo<IProduct[]>({
+    url: `/productos?${
+      !!debouncedSearchText
+        ? `filters[name][$containsi]=${debouncedSearchText}&`
+        : ""
+    }fields[0]=name&fields[1]=price`,
+    urlKey: ["productos", debouncedSearchText],
+    wrappedBy: "data",
+  });
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     setSearchText(value);
-
-    if (value.trim() === "") {
-      setFilteredMenu(menu);
-    } else {
-      const filtered = menu.map((categoria) => ({
-        ...categoria,
-        platillos: categoria.platillos.filter((platillo) =>
-          platillo.nombre.toLowerCase().includes(value)
-        ),
-      }));
-      setFilteredMenu(
-        filtered.filter((categoria) => categoria.platillos.length > 0)
-      );
-    }
   };
 
-  if (!AddMenuContext) {
-    console.log("Contexto addmenu no disponible");
-    return null;
-  }
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearchText(searchText);
+    }, 200);
 
-  const { setShowAddMenuPage } = AddMenuContext;
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [searchText]);
+
+  const handleAddProduct = (product: IProduct) => {
+    setProducts((prev) => [
+      ...prev,
+      {
+        product,
+        quantity: 1,
+      },
+    ]);
+  };
+
+  const filteredProducts = useMemo(() => {
+    if (!data) return [];
+
+    //Filter the products that are already in the order
+    return data.filter(
+      (product) =>
+        !products.find((p) => p.product.documentId === product.documentId)
+    );
+  }, [products, data]);
 
   return (
-    <Flex w="100vw" h="100%" direction="column" bg="gray.50">
-
+    <Flex w="100%" h="100%" direction="column" bg="gray.50">
       <Box px={4} pb={4}>
         <InputGroup size="md">
           <Input
@@ -92,17 +82,21 @@ const addMenuPage = () => {
             value={searchText}
             onChange={handleSearch}
           />
-          <InputRightElement>
-            <IconButton
-              aria-label="Buscar"
-              icon={<FaSearch />}
-              size="sm"
-              bg="blue.300"
-              _hover={{ bg: "blue.400" }}
-              borderRadius="full"
-              color="white"
-            />
-          </InputRightElement>
+
+          {!!debouncedSearchText && (
+            <InputRightElement>
+              <IconButton
+                aria-label="Buscar"
+                icon={<FaX />}
+                size="sm"
+                bg="blue.300"
+                _hover={{ bg: "blue.400" }}
+                borderRadius="full"
+                color="white"
+                onClick={() => setSearchText("")}
+              />
+            </InputRightElement>
+          )}
         </InputGroup>
       </Box>
 
@@ -115,11 +109,13 @@ const addMenuPage = () => {
           }}
           gap={6}
         >
-          {filteredMenu.map((categoria, index) =>
-            categoria.platillos.map((platillo, idx) => (
+          {isLoading && <IndefinteLoadingSpinner />}
+          {error && <ApiErrorDisplay errorCode={500} />}
+          {filteredProducts &&
+            filteredProducts.map((producto, index) => (
               <GridItem
-                key={`${index}-${idx}`}
-                bg="yellow.300"
+                key={`${index}`}
+                bg="brand.yellow.primary"
                 borderRadius="lg"
                 boxShadow="md"
                 p={4}
@@ -133,7 +129,7 @@ const addMenuPage = () => {
                   <GridItem rowSpan={3}>
                     <Image
                       src="/image-not-found.png"
-                      alt={platillo.nombre}
+                      alt={producto.name}
                       borderRadius="md"
                       boxSize="80px"
                       objectFit="cover"
@@ -143,13 +139,13 @@ const addMenuPage = () => {
 
                   <GridItem>
                     <Text fontWeight="bold" fontSize="md" isTruncated>
-                      {platillo.nombre}
+                      {producto.name}
                     </Text>
                   </GridItem>
 
                   <GridItem>
                     <Text fontSize="sm" color="gray.700">
-                      ${platillo.precio.toFixed(2)}
+                      ${producto.price.toFixed(2)}
                     </Text>
                   </GridItem>
 
@@ -166,12 +162,12 @@ const addMenuPage = () => {
                       color="white"
                       _hover={{ bg: "yellow.500" }}
                       borderRadius="full"
+                      onClick={() => handleAddProduct(producto)}
                     />
                   </GridItem>
                 </Grid>
               </GridItem>
-            ))
-          )}
+            ))}
         </Grid>
       </Box>
     </Flex>

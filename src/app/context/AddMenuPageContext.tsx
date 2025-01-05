@@ -1,45 +1,49 @@
 import { IProduct } from "@/app/types";
-import React,
-{
+import React, {
   Dispatch,
   createContext,
   ReactNode,
   useState,
-  SetStateAction
-}
-from "react";
+  SetStateAction,
+} from "react";
 
 interface IAddMenuPageContext {
-  setAddProducts: Dispatch<SetStateAction<any[]>>;
+  setProducts: Dispatch<SetStateAction<IProductObj[]>>;
   setShowAddMenuPage: Dispatch<SetStateAction<boolean>>;
-  products: IProduct[];
-  //showAddProductcs: boolean;
+  products: IProductObj[];
   showAddMenuPage: boolean;
 }
 
-export const AddMenuPageContext = createContext<IAddMenuPageContext | null>(null);
+export interface IProductObj {
+  product: IProduct;
+  quantity: number;
+}
+
+export const AddMenuPageContext = createContext<IAddMenuPageContext>({
+  setProducts: () => {},
+  setShowAddMenuPage: () => {},
+  products: [],
+  showAddMenuPage: false,
+});
 
 export const AddMenuContextProvider = ({
   children,
-}:{
+}: {
   children: ReactNode;
 }) => {
-  const [products, setAddProducts] = useState<IProduct[]>([]);
+  const [products, setProducts] = useState<IProductObj[]>([]);
   const [showAddMenuPage, setShowAddMenuPage] = useState(false);
 
   return (
     <AddMenuPageContext.Provider
-    value={
-      {
-        setAddProducts,
+      value={{
+        setProducts,
         setShowAddMenuPage,
         products,
-        //showAddProductcs,
         showAddMenuPage,
-      }
-    }
+      }}
     >
       {children}
     </AddMenuPageContext.Provider>
   );
-}
+};

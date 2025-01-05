@@ -22,8 +22,9 @@ export interface IProductList {
 }
 
 export interface IProduct {
+  id: number;
   documentId: string;
-  name: string;
+  name?: string;
   price: number;
 }
 
